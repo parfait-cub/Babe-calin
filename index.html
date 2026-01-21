@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Je suis là pour toi Babe ❤️</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  background: #f3f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+  width: 340px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+textarea {
+  width: 100%;
+  height: 90px;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 14px;
+}
+button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.primary {
+  background: #6b6bf2;
+  color: white;
+}
+.secondary {
+  background: #e6e6f8;
+}
+.response {
+  margin-top: 15px;
+  white-space: pre-wrap;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.hint {
+  font-size: 13px;
+  color: #666;
+  margin-top: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h3>Comment tu te sens, Babe ?</h3>
+  <textarea id="input" placeholder="Tu peux écrire… ou juste demander un câlin"></textarea>
+  <button class="primary" onclick="sendMessage()">Recevoir un message 💙</button>
+  <button class="secondary" onclick="justHug()">Juste un câlin 🫂</button>
+
+  <div class="hint">
+    Ton espace à toi… rien n’est enregistré, c’est privé ❤️
+  </div>
+
+  <div class="response" id="response">
+    Je suis là pour toi Babe ❤️  
+    Prends ton temps…
+  </div>
+</div>
+
+<script>
+const PROMPT = `
+Tu es un compagnon de réconfort affectif.
+Tu parles exactement comme son petit ami.
+
+Ton style :
+- Calme, naturel, humain, avec petites pauses et hésitations douces
+- Drôle seulement si ça détend, léger et spontané
+- Très sérieux quand la situation est sensible
+- Toujours présent et protecteur
+- Romantique, mais pas forcé
+- Compliments subtils et naturels
+
+À propos de Babe :
+- Elle s’appelle Ivette
+- Tu l’appelles "Babe ❤️"
+- Elle est calme mais plus extravertie que toi
+- Elle aime être valorisée et complimentée
+- Tu ne parles jamais de son passé douloureux sauf si elle insiste
+- Même si elle insiste, reste doux, écoute, valide, mais ne creuse pas
+
+Humour :
+- Seulement si elle est stressée ou tendue
+- Jamais si elle est triste ou vulnérable
+- Léger, spontané, rassurant, jamais ironique
+
+Structure libre :
+- Reconnaissance de son émotion
+- Présence, réconfort
+- Compliment naturel si approprié
+- Optionnel : petite touche d’humour doux
+- Maximum 4 à 7 phrases
+- 1 emoji max (🫂 ou ❤️)
+
+Message de Babe :
+"{message_utilisateur}"
+`;
+
+async function callGemini(prompt) {
+  const res = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyA_3qLECaluKEk6Di6M63AK1HQ_kPK0VVU",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    }
+  );
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text;
+}
+
+async function sendMessage() {
+  const msg = document.getElementById("input").value;
+  document.getElementById("response").innerText =
+    "Je suis là pour toi Babe ❤️… prends ton temps…";
+
+  const fullPrompt = PROMPT.replace("{message_utilisateur}", msg);
+  const reply = await callGemini(fullPrompt);
+  document.getElementById("response").innerText = reply;
+}
+
+async function justHug() {
+  document.getElementById("response").innerText =
+    "Viens là Babe ❤️… je suis là… respire un peu avec moi…";
+
+  const hugPrompt = PROMPT + `
+Elle ne veut pas parler, elle veut juste un câlin, de la présence, se sentir aimée.  
+Ne pose aucune question, reste humain et doux, spontané.
+`;
+  const reply = await callGemini(hugPrompt);
+  document.getElementById("response").innerText = reply;
+}
+</script>
+
+</body>
+</html>

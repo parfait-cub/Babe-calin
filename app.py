@@ -1,121 +1,122 @@
 import streamlit as st
-import google.generativeai as genai
+import random
+import time
 
 # --- CONFIGURATION DE LA PAGE ---
-st.set_page_config(page_title="Pour toi Babe ❤️", page_icon="❤️", layout="centered")
+st.set_page_config(page_title="Bae ❤️", page_icon="❤️", layout="centered")
 
-# --- RÉCUPÉRATION DE LA CLÉ API ---
-if "GEMINI_API_KEY" in st.secrets:
-    API_KEY = st.secrets["GEMINI_API_KEY"]
-else:
-    st.error("Clé API manquante dans les Secrets.")
-    st.stop()
-
-# --- CONFIGURATION DE L'IA ---
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
-
-# --- DESIGN TYPE CHAT TELEGRAM (CSS) ---
+# --- DESIGN "CHAT MESSENGER" ---
 st.markdown("""
     <style>
+    /* Fond de l'application */
     .stApp {
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-    }
-    @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        background-color: #0d1117;
     }
 
-    .main-card {
-        background: rgba(255, 255, 255, 0.9);
+    /* En-tête fixe */
+    .chat-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(22, 27, 34, 0.9);
         backdrop-filter: blur(10px);
-        padding: 25px;
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
+        border-bottom: 1px solid #30363d;
+    }
+    .chat-header h2 { color: white !important; margin: 0; font-size: 18px; }
+    .status { color: #2ea043; font-size: 11px; }
+
+    /* Ajustement de l'espace pour l'en-tête */
+    .main .block-container {
+        padding-top: 60px;
+    }
+
+    /* Style des bulles Streamlit natives */
+    [data-testid="stChatMessage"] {
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    /* Cacher l'avatar par défaut pour un look plus clean */
+    [data-testid="stChatMessageAvatarUser"], [data-testid="stChatMessageAvatarAssistant"] {
+        display: none;
     }
 
-    /* Bulle de Chat style Telegram */
-    .chat-bubble {
-        background-color: #ffffff;
-        color: #000000;
-        padding: 15px 20px;
-        border-radius: 18px 18px 18px 2px;
-        margin: 20px 0;
-        border: 1px solid #e1e1e1;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        font-size: 16px;
-        line-height: 1.5;
-        position: relative;
-        max-width: 90%;
-        animation: fadeIn 0.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .stTextArea textarea {
-        border-radius: 15px !important;
-        font-size: 16px !important;
-    }
-
-    h1 { text-align: center; color: #333 !important; font-size: 24px !important; }
+    /* Input fixe en bas (Streamlit le gère nativement avec chat_input) */
     </style>
+    
+    <div class="chat-header">
+        <h2>Bae ❤️</h2>
+        <div class="status">● en ligne</div>
+    </div>
     """, unsafe_allow_html=True)
 
-# --- LOGIQUE DE RÉPONSE ---
-def get_ai_response(user_input, special_context=""):
-    prompt = f"""
-    Tu es le petit ami d'Ivette (Babe ❤️).
-    Réponds avec amour, naturel et spontanéité.
-    Pas de passé. 3-5 phrases. 1 emoji.
-    Contexte: {special_context}
-    Ivette dit: "{user_input}"
-    """
-    try:
-        response = model.generate_content(prompt)
-        # On vérifie si la réponse contient du texte
-        if response and response.text:
-            return response.text
-        else:
-            return "Je suis là, je t'écoute... dis-moi en plus. ❤️"
-    except Exception as e:
-        # Affiche l'erreur réelle dans les logs Streamlit pour débugger
-        print(f"Erreur API: {e}")
-        return "Je suis là Babe ❤️... On dirait que ma connexion s'est essoufflée, mais mes sentiments ne changent pas. Réessaie ?"
+# --- LOGIQUE DU CERVEAU (Mots-clés) ---
+def get_bae_response(text):
+    text = text.lower()
+    if any(word in text for word in ["triste", "mal", "pleurer", "fatiguée", "seule", "vide"]):
+        return random.choice([
+            "Oh mon cœur... je suis là. Pose ton téléphone, respire. Je ne bouge pas. ❤️",
+            "Viens là... je te sens d'ici. Tu n'es pas seule, je suis avec toi à chaque seconde. 🫂",
+            "Mon bébé, tout va bien se passer. Je suis tellement fier de la façon dont tu gères tout ça. ❤️"
+        ])
+    elif any(word in text for word in ["énerve", "colère", "marre", "injuste", "saoule", "haine"]):
+        return random.choice([
+            "C'est n'importe quoi ! Tu as raison d'être fâchée. Je suis avec toi, dis-moi tout. 😤",
+            "Laisse tout sortir Babe, je t'écoute. Ils ne te méritent pas de toute façon. ❤️",
+            "Respire... on va s'en occuper ensemble. Je suis dans ton équipe pour toujours. 🫂"
+        ])
+    elif any(word in text for word in ["heureuse", "cool", "réussi", "gagné", "super", "contente", "joie"]):
+        return random.choice([
+            "Mais c'est incroyable ! Bravo Babe ! Je savais que tu étais la meilleure. ✨",
+            "Ton bonheur, c'est tout ce qui compte pour moi. Tu rayonnes ! ❤️",
+            "Je suis tellement fier de toi... on fête ça dès qu'on se voit ? ❤️"
+        ])
+    elif any(word in text for word in ["câlin", "calin", "bras", "bisou", "manque", "hug"]):
+        return random.choice([
+            "Je ferme les yeux et je te serre très fort... Tu sens ? 🫂",
+            "Câlin virtuel infini pour ma Ivette préférée. Je ne te lâche plus. ❤️",
+            "Si j'étais là, tu serais déjà dans mes bras. Vivement... 🫂"
+        ])
+    else:
+        return random.choice([
+            "Je t'écoute Babe, continue... ❤️",
+            "T'es incroyable, tu le sais ça ? ✨",
+            "Je suis tellement bien quand on discute comme ça. ❤️",
+            "Dis-moi tout, je suis tout à toi. 🫂"
+        ])
 
-# --- INTERFACE ---
-st.markdown('<div class="main-card">', unsafe_allow_html=True)
-st.title("Coucou Babe ❤️")
+# --- GESTION DE LA CONVERSATION ---
 
-user_msg = st.text_area("", placeholder="Raconte-moi ta journée...", label_visibility="collapsed")
+# Initialisation de l'historique
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Coucou Babe ❤️ Je suis là pour toi. Comment tu te sens ce soir ?"}
+    ]
 
-c1, c2 = st.columns(2)
-reply = None
+# Affichage des messages de l'historique
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-with c1:
-    if st.button("Envoyer 💌", type="primary"):
-        if user_msg:
-            with st.spinner("En train d'écrire..."):
-                reply = get_ai_response(user_msg, "Elle veut discuter.")
-        else:
-            st.toast("Dis-moi un petit truc...")
+# Barre de saisie en bas (le fameux chat_input)
+if prompt := st.chat_input("Écris à ton Bae..."):
+    # 1. Afficher le message d'Ivette
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
-with c2:
-    if st.button("Besoin d'un câlin 🫂"):
-        with st.spinner("Je t'entoure de mes bras..."):
-            reply = get_ai_response("Câlin", "Elle a besoin de tendresse immédiate.")
-
-# Affichage de la réponse en bulle de chat
-if reply:
-    st.markdown(f"""
-        <div class="chat-bubble">
-            {reply}
-        </div>
-        """, unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    # 2. Générer et afficher la réponse de Bae
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = get_bae_response(prompt)
+        
+        # Petit effet "Bae est en train d'écrire..."
+        time.sleep(1) 
+        message_placeholder.markdown(full_response)
+        
+    st.session_state.messages.append({"role": "assistant", "content": full_response})

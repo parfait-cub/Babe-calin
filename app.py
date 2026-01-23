@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="Pour toi Babe ❤️", page_icon="❤️", layout="centered")
 
 # --- TA CLÉ API (À REMPLACER) ---
-GOOGLE_API_KEY = st.secrets["GEMINI_KEY"]
+GEMINI_API_KEY = st.secrets["GEMINI_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 

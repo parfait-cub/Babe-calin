@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bae ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="messages" id="messages">
+    <div class="bubble bae">Bae ❤️ est là pour toi… 🫂</div>
+  </div>
+
+  <div class="hint">Ton espace privé… rien n’est enregistré ailleurs ❤️</div>
+  <textarea id="input" placeholder="Écris un message…"></textarea>
+  <button class="send" onclick="sendMessage()">Envoyer 💌</button>
+  <button class="hug" onclick="sendHug()">Juste un câlin 🫂</button>
+</div>
+
+<script>
+const messagesDiv = document.getElementById("messages");
+
+async function sendMessage() {
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  addBubble(text, 'user');
+  input.value = '';
+
+  try {
+    const res = await fetch("http://localhost:3000/message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+    const data = await res.json();
+    addBubble(data.reply, 'bae');
+  } catch (e) {
+    addBubble("Problème de connexion… 😢", 'bae');
+  }
+}
+
+async function sendHug() {
+  addBubble("🫂 Câlin demandé…", 'user');
+  try {
+    const res = await fetch("http://localhost:3000/hug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+    const data = await res.json();
+    addBubble(data.reply, 'bae');
+  } catch (e) {
+    addBubble("Problème de connexion… 😢", 'bae');
+  }
+}
+
+function addBubble(text, sender) {
+  const div = document.createElement("div");
+  div.className = "bubble " + sender;
+  div.innerText = text;
+
+  // Ajuster largeur de la bulle selon la longueur
+  const width = Math.min(Math.max(text.length * 8, 100), 300);
+  div.style.width = width + "px";
+
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+</script>
+
+</body>
+</html>

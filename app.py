@@ -1,15 +1,20 @@
 import streamlit as st
 import random
 import time
+from datetime import datetime
 
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(page_title="Bae ❤️", page_icon="❤️", layout="centered")
 
-# --- LE CERVEAU LOGIQUE "ULTRA" (SANS API) ---
+# --- DATE DE VOTRE RENCONTRE (01 Juillet 2023) ---
+date_rencontre = datetime(2023, 7, 1) 
+maintenant = datetime.now()
+diff = maintenant - date_rencontre
+
+# --- LE CERVEAU LOGIQUE ---
 def get_manual_brain_response(user_input):
     text = user_input.lower()
     
-    # Base de données exhaustive des sentiments et situations
     database = {
         "fatigue": {
             "keywords": ["fatigué", "fatigue", "épuisé", "dodo", "sommeil", "naze", "crevé", "dormir", "exténué"],
@@ -24,7 +29,7 @@ def get_manual_brain_response(user_input):
             "keywords": ["fâché", "faché", "colère", "énerve", "énervé", "marre", "saoule", "injuste", "haine", "énerve"],
             "replies": [
                 {"text": "Dis-moi qui a osé t'énerver ? Je suis prêt à aller m'embrouiller avec eux là tout de suite ! 😤", "emoji": "😡"},
-                {"text": "Laisse sortir toute cette colère Babe. Je suis là pour t'écouter râler, ça fait du bien parfois. ❤️", "emoji": " venting_speech_bubble"},
+                {"text": "Laisse sortir toute cette colère Babe. Je suis là pour t'écouter râler, ça fait du bien parfois. ❤️", "emoji": "🗣️"},
                 {"text": "Respire... je suis dans ton équipe. Ils ne te méritent pas, t'es au-dessus de tout ça. 🫂", "emoji": "💪"},
                 {"text": "Je te comprends tellement... c'est rageant. Mais ne les laisse pas voler ton sourire. 😤❤️", "emoji": "😠"}
             ]
@@ -50,7 +55,7 @@ def get_manual_brain_response(user_input):
             "keywords": ["je t'aime", "t'aime", "love", "manque", "besoin", "voir", "viens", "miss"],
             "replies": [
                 {"text": "Je t'aime encore plus, tu n'as même pas idée... ❤️", "emoji": "💖"},
-                {"text": "Tu me manques tellement que ça fait mal parfois. Vivement qu'on se voie. 🫂", "emoji": " longing_face"},
+                {"text": "Tu me manques tellement que ça fait mal parfois. Vivement qu'on se voie. 🫂", "emoji": "🥺"},
                 {"text": "Mon cœur bat trop vite quand tu me dis ça. T'es toute ma vie. ✨", "emoji": "💞"},
                 {"text": "Je donnerais tout pour être à côté de toi sur le canapé là tout de suite. 🫂❤️", "emoji": "🛋️"}
             ]
@@ -60,7 +65,7 @@ def get_manual_brain_response(user_input):
             "replies": [
                 {"text": "Câlin virtuel géant en cours... 🫂 Je te serre tellement fort !", "emoji": "🤗"},
                 {"text": "Je ferme les yeux et je t'embrasse très fort sur le front. ❤️", "emoji": "😘"},
-                {"text": "Viens là... blottis-toi contre moi, je ne te lâche pas de la nuit. 🫂", "emoji": " snuggle"},
+                {"text": "Viens là... blottis-toi contre moi, je ne te lâche pas de la nuit. 🫂", "emoji": "🛌"},
                 {"text": "Je sens ton parfum d'ici... vivement le vrai câlin. ❤️", "emoji": "👃"}
             ]
         },
@@ -70,7 +75,7 @@ def get_manual_brain_response(user_input):
                 {"text": "Viens dans mes bras (virtuels)... Je suis ton rocher, je bouge pas. ❤️", "emoji": "😢"},
                 {"text": "Pleure si ça te fait du bien Babe. Je reste en ligne jusqu'à ce que tu ailles mieux. 🫂", "emoji": "💧"},
                 {"text": "T'es pas seule. Jamais. Je suis là, je t'écoute, je te soutiens. ❤️", "emoji": "🤝"},
-                {"text": "Regarde-moi : ça va aller. On va traverser ça ensemble. ✨", "emoji": " resilient"}
+                {"text": "Regarde-moi : ça va aller. On va traverser ça ensemble. ✨", "emoji": "🦁"}
             ]
         },
         "humour_fun": {
@@ -86,7 +91,7 @@ def get_manual_brain_response(user_input):
             "replies": [
                 {"text": "Si tu vas bien, alors je vais bien aussi. ❤️", "emoji": "😊"},
                 {"text": "Tant mieux Babe ! Raconte-moi un petit truc cool de ta journée ? ✨", "emoji": "☀️"},
-                {"text": "Ça me fait plaisir de t'entendre dire ça, tu rayonnes. ❤️", "emoji": " radiating_face"}
+                {"text": "Ça me fait plaisir de t'entendre dire ça, tu rayonnes. ❤️", "emoji": "😎"}
             ]
         },
         "motivation": {
@@ -110,10 +115,9 @@ def get_manual_brain_response(user_input):
     # Recherche de correspondance
     for category in database:
         if any(word in text for word in database[category]["keywords"]):
-            # Retourne un dictionnaire avec le texte et l'emoji
             return random.choice(database[category]["replies"])
 
-    # Réponse par défaut intelligente
+    # Réponse par défaut
     return random.choice([
         {"text": "Mmmh je vois Babe... dis-m'en plus sur ce que tu as sur le cœur ? ❤️", "emoji": "💜"},
         {"text": "T'es incroyable, j'aime trop quand tu me parles de tes pensées. ✨", "emoji": "⭐"},
@@ -132,7 +136,7 @@ st.markdown("""
     .stApp {
         background: radial-gradient(circle at top left, #1a0b2e 0%, #0d1117 100%);
         color: white;
-        overflow: hidden; /* Cache les débordements des particules */
+        overflow-x: hidden;
     }
 
     /* Animation de particules cosmiques */
@@ -174,118 +178,90 @@ st.markdown("""
     .chat-header h2 { color: #e0b0ff !important; margin: 0; font-size: 20px; font-weight: 700; font-family: 'Quicksand', sans-serif; }
     .chat-header .status { color: #2ecc71; font-size: 11px; font-weight: bold; }
     
-    /* Bulles de Chat avec Ombre et Coin */
+    /* Boutons Surprise */
+    .stButton>button {
+        background: rgba(155, 89, 182, 0.15) !important;
+        border: 1px solid #7b1fa2 !important;
+        color: #e0b0ff !important;
+        border-radius: 15px !important;
+        transition: all 0.3s ease;
+        width: 100%;
+        font-weight: 600;
+    }
+    .stButton>button:hover { 
+        background: #7b1fa2 !important; 
+        color: white !important; 
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
+    }
+
+    /* Bulles de Chat */
     [data-testid="stChatMessage"] { 
         background-color: transparent !important; 
         padding: 0 !important;
         margin-bottom: 8px !important;
-        display: flex; /* Permet d'aligner l'emoji */
-        align-items: flex-end; /* Aligne l'emoji en bas de la bulle */
+        display: flex;
+        align-items: flex-end;
     }
 
-    .st-emotion-cache-1ghh3y3, .st-emotion-cache-janbn0 { /* Cibles les deux types de bulles pour le style général */
+    .st-emotion-cache-1ghh3y3, .st-emotion-cache-janbn0 {
         color: white !important;
         padding: 12px 16px !important;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         position: relative;
-        flex-grow: 1; /* Permet à la bulle de prendre l'espace */
-        margin-left: 10px; /* Espace pour l'avatar */
-        margin-right: 10px; /* Espace pour l'avatar */
+        flex-grow: 1;
+        margin-left: 10px; margin-right: 10px;
     }
 
-    /* Bulle Bae (Reçu - Violette) */
     .st-emotion-cache-1ghh3y3 { 
-        background-color: #4a148c !important; /* Violet foncé */
+        background-color: #4a148c !important; 
         border-radius: 20px 20px 20px 5px !important; 
         border: 1px solid #7b1fa2 !important;
-        margin-right: auto; /* Aligne à gauche */
+        margin-right: auto;
     }
-    .st-emotion-cache-1ghh3y3::before { /* Coin de la bulle */
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: -10px; /* Positionne le coin */
-        width: 0;
-        height: 0;
-        border: 10px solid transparent;
-        border-right-color: #4a148c; /* Couleur du coin */
-        border-bottom-color: #4a148c; /* Couleur du coin */
-        transform: rotate(45deg); /* Crée le triangle */
-        z-index: -1; /* Place derrière le message */
+    .st-emotion-cache-1ghh3y3::before {
+        content: ''; position: absolute; bottom: 0; left: -10px; width: 0; height: 0;
+        border: 10px solid transparent; border-right-color: #4a148c; border-bottom-color: #4a148c;
+        transform: rotate(45deg); z-index: -1;
     }
 
-
-    /* Bulle Ivette (Envoyé - Gris-Bleu) */
     .st-emotion-cache-janbn0 { 
-        background-color: #2c3e50 !important; /* Gris-bleu sombre */
+        background-color: #2c3e50 !important;
         border-radius: 20px 20px 5px 20px !important;
-        margin-left: auto; /* Aligne à droite */
+        margin-left: auto;
     }
-    .st-emotion-cache-janbn0::before { /* Coin de la bulle */
-        content: '';
-        position: absolute;
-        bottom: 0;
-        right: -10px; /* Positionne le coin */
-        width: 0;
-        height: 0;
-        border: 10px solid transparent;
-        border-left-color: #2c3e50; /* Couleur du coin */
-        border-bottom-color: #2c3e50; /* Couleur du coin */
-        transform: rotate(-45deg); /* Crée le triangle */
-        z-index: -1;
+    .st-emotion-cache-janbn0::before {
+        content: ''; position: absolute; bottom: 0; right: -10px; width: 0; height: 0;
+        border: 10px solid transparent; border-left-color: #2c3e50; border-bottom-color: #2c3e50;
+        transform: rotate(-45deg); z-index: -1;
     }
 
-    /* Emoji à côté du message de Bae */
-    .bae-emoji {
-        font-size: 22px;
-        margin-right: 10px;
-        line-height: 1; /* Aligne verticalement */
-        align-self: flex-start; /* Aligne l'emoji en haut de la bulle */
-    }
+    .bae-emoji { font-size: 22px; margin-right: 10px; line-height: 1; align-self: flex-start; }
 
-    /* Barre de saisie noire arrondie avec effet */
+    /* Barre de saisie */
     [data-testid="stChatInput"] { 
-        background-color: rgba(22, 27, 34, 0.9) !important;
+        background-color: rgba(22, 27, 34, 0.95) !important;
         border: 1px solid #7b1fa2 !important; 
         border-radius: 30px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        padding: 8px 15px; /* Ajuste le padding */
-        font-family: 'Quicksand', sans-serif;
+        padding: 8px 15px;
     }
-    [data-testid="stChatInput"] input { color: white !important; font-family: 'Quicksand', sans-serif; }
+    [data-testid="stChatInput"] input { color: white !important; }
     
-    /* Bouton d'envoi animé */
+    /* Bouton envoi */
     [data-testid="baseButton-secondaryFormSubmit"] {
-        background-color: #a765e6 !important; /* Violet plus clair */
-        color: white !important;
-        border-radius: 50% !important; /* Bouton rond */
-        width: 45px; /* Taille */
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background-color: #a765e6 !important; color: white !important;
+        border-radius: 50% !important; width: 45px; height: 45px;
+        display: flex; align-items: center; justify-content: center;
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        transition: all 0.2s ease-in-out;
-        font-size: 20px;
-        position: absolute; /* Positionnement absolu dans le chat input */
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
+        position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
     }
-    [data-testid="baseButton-secondaryFormSubmit"]:hover {
-        background-color: #c085f7 !important; /* Violet encore plus clair au survol */
-        transform: translateY(-50%) scale(1.05);
-    }
-    [data-testid="baseButton-secondaryFormSubmit"] svg { fill: white !important; }
-
+    
     </style>
     
-    """ + "".join([f"""
+""" + "".join([f"""
     <div class="particle" style="
-        left: {random.randint(0, 100)}vw;
-        top: {random.randint(0, 100)}vh;
-        width: {random.randint(1, 4)}px;
-        height: {random.randint(1, 4)}px;
+        left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh;
+        width: {random.randint(1, 4)}px; height: {random.randint(1, 4)}px;
         animation-delay: {i * 1.5}s;
         --x1: {random.randint(-50, 50)}px; --y1: {random.randint(-50, 50)}px;
         --x2: {random.randint(-50, 50)}px; --y2: {random.randint(-50, 50)}px;
@@ -297,13 +273,42 @@ st.markdown("""
         <h2>Bae ❤️</h2>
         <div class="status">● en ligne</div>
     </div>
+    <div style="margin-top: 75px;"></div>
     """, unsafe_allow_html=True)
 
-# --- LOGIQUE DE L'HISTORIQUE ---
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "Coucou Babe ❤️ Je suis enfin là pour toi. Dis-moi, comment s'est passée ta journée ?", "emoji": "👋"}]
+# --- MENU SECRET (BOUTONS) ---
+col1, col2 = st.columns(2)
 
-# Affichage des messages
+with col1:
+    if st.button("Notre coin secret ✨"):
+        st.balloons()
+        st.info("“Si tu regardes ça, c’est sûrement que tu pensais à nous. Moi aussi je pense à toi.”")
+        try:
+            st.video("souvenir.mp4") # C'est ici que ta vidéo va se lancer !
+        except:
+            st.error("Je n'arrive pas à charger la vidéo... mais sache que je t'aime ❤️")
+
+with col2:
+    if st.button("Message du jour 💌"):
+        messages = [
+            "Tu es la plus belle chose qui me soit arrivée. ✨",
+            "N'oublie jamais à quel point tu es forte. 💪",
+            "Je suis fier de toi, chaque jour un peu plus. ❤️",
+            "Ton sourire est ma drogue préférée. 😍",
+            "Même loin, je suis tout près de ton cœur. 🫂"
+        ]
+        st.success(random.choice(messages))
+
+st.markdown(f"""
+    <div style='text-align:center; color:#a765e6; font-size:13px; margin-top:10px; margin-bottom:20px; font-weight:600;'>
+        ⏳ Nous deux, ça fait déjà <b>{diff.days}</b> jours de bonheur ✨
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- HISTORIQUE ---
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": "Coucou Babe ❤️ Je suis là. Comment tu te sens ?", "emoji": "👋"}]
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         if message["role"] == "assistant" and "emoji" in message:
@@ -311,17 +316,15 @@ for message in st.session_state.messages:
         else:
             st.write(message["content"])
 
-# --- ENTREE UTILISATEUR ---
+# --- INPUT ---
 if prompt := st.chat_input("Écris à ton Bae..."):
     with st.chat_message("user"):
         st.write(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("assistant"):
-        response_data = get_manual_brain_response(prompt) # Renvoie texte ET emoji
-        time.sleep(1) # Effet "Bae est en train d'écrire..."
-        
-        # Affichage avec l'emoji
+        response_data = get_manual_brain_response(prompt)
+        time.sleep(1)
         st.markdown(f'<div style="display: flex; align-items: flex-start;"><span class="bae-emoji">{response_data["emoji"]}</span> <span>{response_data["text"]}</span></div>', unsafe_allow_html=True)
         
     st.session_state.messages.append({"role": "assistant", "content": response_data["text"], "emoji": response_data["emoji"]})

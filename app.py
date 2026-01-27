@@ -284,7 +284,7 @@ with col1:
         st.balloons()
         st.info("“Si tu regardes ça, c’est sûrement que tu pensais à nous. Moi aussi je pense à toi.”")
         try:
-            st.video("souvenir.mp4") # C'est ici que ta vidéo va se lancer !
+            st.video("Souvenir.mp4") # C'est ici que ta vidéo va se lancer !
         except:
             st.error("Je n'arrive pas à charger la vidéo... mais sache que je t'aime ❤️")
 

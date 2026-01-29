@@ -247,7 +247,7 @@ def get_manual_brain_response(user_input):
     ])
 
 # --- CSS ULTRA PREMIUM ---
-st.markdown("""
+ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
     
@@ -274,13 +274,12 @@ st.markdown("""
         font-family: 'Quicksand', sans-serif; 
     }
     
+    /* Background animé */
     .stApp { 
-        background: linear-gradient(135deg, #1a0b2e 0%, #0d1117 50%, #2d1b4e 100%);
-        background-size: 400% 400%;
-        animation: gradient-shift 15s ease infinite;
-        color: white; 
-        overflow-x: hidden;
-        position: relative;
+        background: linear-gradient(135deg, #1a0b2e 0%, #0d1117 50%, #2d1b4e 100%) !important;
+        background-size: 400% 400% !important;
+        animation: gradient-shift 15s ease infinite !important;
+        color: white !important;
     }
     
     /* Particules flottantes */
@@ -293,6 +292,7 @@ st.markdown("""
         animation: float 6s ease-in-out infinite;
         opacity: 0.6;
         z-index: 1;
+        pointer-events: none;
     }
     
     .stApp::after {
@@ -304,6 +304,7 @@ st.markdown("""
         animation: float 8s ease-in-out infinite;
         opacity: 0.5;
         z-index: 1;
+        pointer-events: none;
     }
     
     /* Header fixe avec effet glassmorphism */
@@ -311,6 +312,7 @@ st.markdown("""
         position: fixed; 
         top: 0; 
         left: 0; 
+        right: 0;
         width: 100%; 
         background: rgba(74, 20, 140, 0.3);
         backdrop-filter: blur(20px) saturate(180%);
@@ -346,6 +348,7 @@ st.markdown("""
         background: #2ecc71;
         border-radius: 50%;
         animation: pulse 2s ease-in-out infinite;
+        display: inline-block;
     }
     
     @keyframes pulse {
@@ -353,41 +356,35 @@ st.markdown("""
         50% { opacity: 0.5; transform: scale(1.2); }
     }
     
-    /* Boutons avec effet hover */
-    .stButton>button { 
+    /* Boutons stylés */
+    .stButton > button { 
         background: rgba(155, 89, 182, 0.2) !important;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px) !important;
         border: 2px solid #9b59b6 !important; 
         color: #e0b0ff !important; 
         border-radius: 20px !important; 
-        width: 100%;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+        width: 100% !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2) !important;
+        padding: 10px 20px !important;
     }
     
-    .stButton>button:hover {
+    .stButton > button:hover {
         background: rgba(155, 89, 182, 0.4) !important;
         border: 2px solid #da70d6 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(155, 89, 182, 0.4);
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 25px rgba(155, 89, 182, 0.4) !important;
     }
     
-    /* Bulles de chat avec glassmorphism */
-    .st-emotion-cache-1ghh3y3 { 
-        background: rgba(74, 20, 140, 0.4) !important;
-        backdrop-filter: blur(15px);
-        border-radius: 20px 20px 20px 5px !important;
-        border: 1px solid rgba(155, 89, 182, 0.3);
-        box-shadow: 0 8px 32px rgba(74, 20, 140, 0.3);
-    }
-    
-    .st-emotion-cache-janbn0 { 
-        background: rgba(44, 62, 80, 0.4) !important;
-        backdrop-filter: blur(15px);
-        border-radius: 20px 20px 5px 20px !important;
-        border: 1px solid rgba(155, 89, 182, 0.2);
-        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.3);
+    /* Messages de chat */
+    [data-testid="stChatMessage"] {
+        background: rgba(74, 20, 140, 0.3) !important;
+        backdrop-filter: blur(15px) !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(155, 89, 182, 0.3) !important;
+        padding: 15px !important;
+        margin: 10px 0 !important;
     }
     
     /* Emoji avec animation */
@@ -404,44 +401,52 @@ st.markdown("""
     
     /* Compte à rebours stylé */
     .countdown-box { 
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        padding: 15px; 
-        border-radius: 15px; 
-        border: 2px dashed #e0b0ff;
-        margin-bottom: 25px; 
-        text-align: center;
-        box-shadow: 0 8px 32px rgba(155, 89, 182, 0.2);
-        animation: glow 4s ease-in-out infinite;
+        background: rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(10px) !important;
+        padding: 15px !important; 
+        border-radius: 15px !important; 
+        border: 2px dashed #e0b0ff !important;
+        margin-bottom: 25px !important; 
+        text-align: center !important;
+        box-shadow: 0 8px 32px rgba(155, 89, 182, 0.2) !important;
+        animation: glow 4s ease-in-out infinite !important;
     }
     
     /* Compteur de jours */
     .days-counter {
-        text-align: center;
-        color: #da70d6;
-        font-size: 15px;
-        margin: 20px 0;
-        padding: 10px;
-        background: rgba(218, 112, 214, 0.1);
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
+        text-align: center !important;
+        color: #da70d6 !important;
+        font-size: 15px !important;
+        margin: 20px 0 !important;
+        padding: 10px !important;
+        background: rgba(218, 112, 214, 0.1) !important;
+        border-radius: 10px !important;
+        backdrop-filter: blur(10px) !important;
     }
     
-    /* Messages et notifications */
-    .stSuccess, .stInfo {
+    /* Messages info/success */
+    [data-testid="stNotification"] {
         background: rgba(155, 89, 182, 0.2) !important;
-        backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px) !important;
         border-left: 4px solid #9b59b6 !important;
-        border-radius: 10px;
-        padding: 15px;
+        border-radius: 10px !important;
     }
     
     /* Input de chat */
-    .stChatInput {
-        border-radius: 25px !important;
-        border: 2px solid rgba(155, 89, 182, 0.3) !important;
+    [data-testid="stChatInput"] {
         background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px) !important;
+        border-radius: 25px !important;
+    }
+    
+    [data-testid="stChatInput"] input {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    /* Colonnes */
+    [data-testid="column"] {
+        background: transparent !important;
     }
     
     /* Scrollbar personnalisée */
@@ -462,7 +467,7 @@ st.markdown("""
         background: linear-gradient(180deg, #da70d6, #9b59b6);
     }
     
-    /* Effet de typing pour les réponses */
+    /* Animation d'apparition */
     @keyframes typing {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -472,16 +477,20 @@ st.markdown("""
         animation: typing 0.5s ease-out;
     }
     
+    /* Fix pour la visibilité */
+    .main .block-container {
+        padding-top: 100px !important;
+        max-width: 100% !important;
+    }
+    
     </style>
     <div class="chat-header">
         <h2>💜 Bae</h2>
         <div class="online-status">
-            <div class="pulse"></div>
+            <span class="pulse"></span>
             en ligne
         </div>
     </div>
-    <div style="margin-top: 90px;"></div>
-    """, unsafe_allow_html=True)
 
 # --- COMPTE À REBOURS SAINT-VALENTIN ---
 if jours_restants_valentin > 0:

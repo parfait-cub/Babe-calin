@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bae & Ivette ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --purple: #9b59b6; 
+            --dark: #0d1117; 
+            --glass: rgba(255, 255, 255, 0.08);
+            --bg-gradient: radial-gradient(circle at top, #1a0b2e, #0d1117);
+        }
+
+        /* Mode Nuit Étoilée Dynamique */
+        body.night-mode {
+            --bg-gradient: radial-gradient(circle at top, #050505, #0d1117);
+            --purple: #7d4a8d;
+        }
+
+        body { 
+            margin: 0; font-family: 'Quicksand', sans-serif; 
+            background: var(--bg-gradient); 
+            color: white; overflow-x: hidden; transition: background 1s ease;
+        }
+
+        /* Header Glassmorphism */
+        .header { 
+            position: fixed; top: 0; width: 100%; 
+            background: rgba(13, 17, 23, 0.85); 
+            backdrop-filter: blur(15px); padding: 15px; text-align: center; 
+            border-bottom: 1px solid var(--purple); z-index: 1000; 
+        }
+        .header h1 { font-family: 'Dancing Script', cursive; margin: 0; color: #e0b0ff; font-size: 28px; }
+
+        .container { padding: 100px 15px 140px; max-width: 500px; margin: auto; }
+
+        /* Mood Tracker */
+        .mood-tracker {
+            display: flex; justify-content: space-around;
+            background: var(--glass); border-radius: 20px; padding: 15px;
+            margin-bottom: 25px; border: 1px solid rgba(155, 89, 182, 0.2);
+        }
+        .mood-btn { 
+            font-size: 24px; cursor: pointer; transition: transform 0.2s; 
+            background: none; border: none; 
+        }
+        .mood-btn:hover { transform: scale(1.3); }
+
+        /* Boutons Actions */
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .btn-action { 
+            background: var(--glass); border: 1px solid var(--purple); color: #e0b0ff;
+            padding: 10px; border-radius: 12px; cursor: pointer; font-family: inherit; font-weight: 600;
+        }
+
+        /* Zone Vidéo */
+        #video-container { 
+            display: none; margin-bottom: 20px; border-radius: 15px; overflow: hidden;
+            border: 2px solid var(--purple); animation: fadeIn 0.5s;
+        }
+        video { width: 100%; display: block; }
+
+        /* Chat UI */
+        #chat-box { display: flex; flex-direction: column; gap: 12px; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; line-height: 1.4; font-size: 15px; }
+        .bot { background: #4a148c; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .user { background: #2c3e50; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        /* Barre d'envoi */
+        .input-area { 
+            position: fixed; bottom: 0; width: 100%; max-width: 500px; 
+            background: #0d1117; padding: 15px; box-sizing: border-box; 
+            display: flex; gap: 10px; left: 50%; transform: translateX(-50%);
+        }
+        input { 
+            flex: 1; background: var(--glass); border: 1px solid var(--purple); 
+            border-radius: 25px; padding: 12px 20px; color: white; outline: none; 
+        }
+        .send-btn { 
+            background: var(--purple); border: none; color: white; 
+            border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 18px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1 id="main-title">Bae ❤️</h1>
+    <div id="days-count" style="font-size: 12px; color: #a765e6; margin-top: 4px;"></div>
+</div>
+
+<div class="container">
+    <div class="mood-tracker">
+        <button class="mood-btn" onclick="mood('fatigue')">🌙</button>
+        <button class="mood-btn" onclick="mood('motivation')">🔥</button>
+        <button class="mood-btn" onclick="mood('calin')">🥺</button>
+        <button class="mood-btn" onclick="mood('faim')">🍕</button>
+    </div>
+
+    <div class="action-row">
+        <button class="btn-action" onclick="toggleVideo()">✨ Notre Coin Secret</button>
+        <button class="btn-action" onclick="dailyMessage()">💌 Message du Jour</button>
+    </div>
+
+    <div id="video-container">
+        <video id="myVideo" controls>
+            <source src="Souvenir.mp4" type="video/mp4">
+            Ton navigateur ne supporte pas la vidéo.
+        </video>
+    </div>
+
+    <div id="chat-box">
+        <div class="msg bot" id="welcome-msg">Coucou ma chérie ❤️ Comment te sens-tu ?</div>
+    </div>
+</div>
+
+<div class="input-area">
+    <input type="text" id="user-input" placeholder="Parle-moi, Ivette...">
+    <button class="send-btn" onclick="sendMessage()">✈️</button>
+</div>
+
+<script>
+    const dateRencontre = new Date('2023-07-01');
+
+    // 1. GESTION DU MODE NUIT DYNAMIQUE
+    function applyNightMode() {
+        const hour = new Date().getHours();
+        if (hour >= 22 || hour < 6) {
+            document.body.classList.add('night-mode');
+            document.getElementById('welcome-msg').innerText = "Tu ne dors pas encore, ma lune ? 🌙 Viens me parler...";
+        }
+    }
+    applyNightMode();
+
+    // 2. COMPTEUR DE JOURS
+    function updateHeader() {
+        const now = new Date();
+        const diff = Math.floor((now - dateRencontre) / (1000 * 60 * 60 * 24));
+        document.getElementById('days-count').innerText = `● en ligne | ${diff} jours de bonheur`;
+    }
+    updateHeader();
+
+    // 3. MOOD TRACKER LOGIC
+    const moods = {
+        fatigue: "Oh ma pauvre chérie... pose tout et repose-toi. Je suis là mentalement. 😴",
+        motivation: "T'es une warrior Ivette ! Ne lâche rien, je crois en toi plus que tout ! 🔥",
+        calin: "Viens là... Je te serre fort fort fort dans mes bras virtuels. 🫂❤️",
+        faim: "Babe a faim ? File manger un truc bon, tu as besoin de forces ! 🍕"
+    };
+
+    function mood(type) {
+        addMessage(moods[type], 'bot');
+        // Changement de couleur temporaire
+        document.body.style.filter = "hue-rotate(45deg)";
+        setTimeout(() => document.body.style.filter = "none", 1000);
+    }
+
+    // 4. ACTIONS
+    function toggleVideo() {
+        const v = document.getElementById('video-container');
+        v.style.display = (v.style.display === 'none' || v.style.display === '') ? 'block' : 'none';
+    }
+
+    function dailyMessage() {
+        const msgs = [
+            "Tu es la plus belle rencontre de ma vie. ✨",
+            "Ivette, ton sourire est ma drogue préférée. 😍",
+            "N'oublie jamais à quel point tu es forte. 💪",
+            "Je t'aime plus que tout au monde. ❤️"
+        ];
+        addMessage(msgs[Math.floor(Math.random()*msgs.length)], 'bot');
+    }
+
+    // 5. CHAT LOGIC
+    function sendMessage() {
+        const input = document.getElementById('user-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+
+        setTimeout(() => {
+            const reply = getBotReply(text);
+            addMessage(reply, 'bot');
+        }, 600);
+    }
+
+    function getBotReply(text) {
+        const t = text.toLowerCase();
+        if(t.includes("aime")) return "Je t'aime encore plus, c'est impossible de gagner ! 💖";
+        if(t.includes("manque")) return "Toi aussi tu me manques terriblement... 🥺";
+        return "Dis-m'en plus ma chérie, je t'écoute... ❤️";
+    }
+
+    function addMessage(text, side) {
+        const chatBox = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = `msg ${side}`;
+        div.innerText = text;
+        chatBox.appendChild(div);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

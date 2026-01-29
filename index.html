@@ -3,209 +3,807 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bae & Ivette ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Bae ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --purple: #9b59b6; 
-            --dark: #0d1117; 
-            --glass: rgba(255, 255, 255, 0.08);
-            --bg-gradient: radial-gradient(circle at top, #1a0b2e, #0d1117);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Mode Nuit Étoilée Dynamique */
-        body.night-mode {
-            --bg-gradient: radial-gradient(circle at top, #050505, #0d1117);
-            --purple: #7d4a8d;
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1a0b2e 0%, #0d1117 50%, #2d1b4e 100%);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
         }
 
-        body { 
-            margin: 0; font-family: 'Quicksand', sans-serif; 
-            background: var(--bg-gradient); 
-            color: white; overflow-x: hidden; transition: background 1s ease;
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Header Glassmorphism */
-        .header { 
-            position: fixed; top: 0; width: 100%; 
-            background: rgba(13, 17, 23, 0.85); 
-            backdrop-filter: blur(15px); padding: 15px; text-align: center; 
-            border-bottom: 1px solid var(--purple); z-index: 1000; 
-        }
-        .header h1 { font-family: 'Dancing Script', cursive; margin: 0; color: #e0b0ff; font-size: 28px; }
-
-        .container { padding: 100px 15px 140px; max-width: 500px; margin: auto; }
-
-        /* Mood Tracker */
-        .mood-tracker {
-            display: flex; justify-content: space-around;
-            background: var(--glass); border-radius: 20px; padding: 15px;
-            margin-bottom: 25px; border: 1px solid rgba(155, 89, 182, 0.2);
-        }
-        .mood-btn { 
-            font-size: 24px; cursor: pointer; transition: transform 0.2s; 
-            background: none; border: none; 
-        }
-        .mood-btn:hover { transform: scale(1.3); }
-
-        /* Boutons Actions */
-        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .btn-action { 
-            background: var(--glass); border: 1px solid var(--purple); color: #e0b0ff;
-            padding: 10px; border-radius: 12px; cursor: pointer; font-family: inherit; font-weight: 600;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-10px) translateX(-10px); }
+            75% { transform: translateY(-15px) translateX(5px); }
         }
 
-        /* Zone Vidéo */
-        #video-container { 
-            display: none; margin-bottom: 20px; border-radius: 15px; overflow: hidden;
-            border: 2px solid var(--purple); animation: fadeIn 0.5s;
-        }
-        video { width: 100%; display: block; }
-
-        /* Chat UI */
-        #chat-box { display: flex; flex-direction: column; gap: 12px; }
-        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; line-height: 1.4; font-size: 15px; }
-        .bot { background: #4a148c; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .user { background: #2c3e50; align-self: flex-end; border-bottom-right-radius: 4px; }
-
-        /* Barre d'envoi */
-        .input-area { 
-            position: fixed; bottom: 0; width: 100%; max-width: 500px; 
-            background: #0d1117; padding: 15px; box-sizing: border-box; 
-            display: flex; gap: 10px; left: 50%; transform: translateX(-50%);
-        }
-        input { 
-            flex: 1; background: var(--glass); border: 1px solid var(--purple); 
-            border-radius: 25px; padding: 12px 20px; color: white; outline: none; 
-        }
-        .send-btn { 
-            background: var(--purple); border: none; color: white; 
-            border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 18px;
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(155, 89, 182, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(155, 89, 182, 0.6); }
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes typing {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Particules flottantes */
+        .particle {
+            position: fixed;
+            font-size: 25px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle1 { top: 10%; left: 10%; animation: float 6s ease-in-out infinite; }
+        .particle2 { top: 60%; right: 15%; animation: float 8s ease-in-out infinite; }
+        .particle3 { top: 30%; right: 30%; animation: float 7s ease-in-out infinite 1s; }
+        .particle4 { bottom: 20%; left: 20%; animation: float 9s ease-in-out infinite 2s; }
+
+        /* Header */
+        .chat-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: rgba(74, 20, 140, 0.3);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 18px;
+            text-align: center;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(224, 176, 255, 0.2);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .chat-header h2 {
+            color: #e0b0ff;
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 0 0 20px rgba(224, 176, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .online-status {
+            color: #2ecc71;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px 20px;
+        }
+
+        /* Compte à rebours */
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dashed #e0b0ff;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(155, 89, 182, 0.2);
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        /* Boutons menu */
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(155, 89, 182, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #9b59b6;
+            color: #e0b0ff;
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+            font-size: 14px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn:hover {
+            background: rgba(155, 89, 182, 0.4);
+            border: 2px solid #da70d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(155, 89, 182, 0.4);
+        }
+
+        /* Compteur de jours */
+        .days-counter {
+            text-align: center;
+            color: #da70d6;
+            font-size: 15px;
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(218, 112, 214, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Chat container */
+        .chat-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Messages */
+        .message {
+            margin-bottom: 15px;
+            animation: typing 0.5s ease-out;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.assistant .message-bubble {
+            background: rgba(74, 20, 140, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+            box-shadow: 0 8px 32px rgba(74, 20, 140, 0.3);
+            border-radius: 20px 20px 20px 5px;
+            text-align: left;
+        }
+
+        .message.user .message-bubble {
+            background: rgba(44, 62, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(155, 89, 182, 0.2);
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.3);
+            border-radius: 20px 20px 5px 20px;
+        }
+
+        .emoji {
+            font-size: 28px;
+            margin-right: 10px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .emoji:hover {
+            transform: scale(1.3) rotate(10deg);
+        }
+
+        /* Input zone */
+        .input-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 11, 46, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 15px;
+            border-top: 1px solid rgba(155, 89, 182, 0.3);
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        #userInput {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(155, 89, 182, 0.3);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 15px;
+            font-family: 'Quicksand', sans-serif;
+            outline: none;
+        }
+
+        #userInput::placeholder {
+            color: rgba(224, 176, 255, 0.5);
+        }
+
+        #sendBtn {
+            background: rgba(155, 89, 182, 0.3);
+            border: 2px solid #9b59b6;
+            color: #e0b0ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        #sendBtn:hover {
+            background: rgba(155, 89, 182, 0.5);
+            transform: scale(1.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(74, 20, 140, 0.4);
+            backdrop-filter: blur(20px);
+            border: 2px solid #9b59b6;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: typing 0.3s ease-out;
+        }
+
+        .modal-close {
+            background: rgba(155, 89, 182, 0.3);
+            border: 2px solid #9b59b6;
+            color: #e0b0ff;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 15px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(26, 11, 46, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #9b59b6, #da70d6);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #da70d6, #9b59b6);
+        }
+
+        /* Notification toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(155, 89, 182, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 2px solid #da70d6;
+            color: white;
+            font-weight: 600;
+            animation: typing 0.3s ease-out;
+            z-index: 3000;
+            display: none;
+        }
+
+        .toast.active {
+            display: block;
+        }
+
+        /* Saint-Valentin surprise */
+        .valentine-box {
+            background: linear-gradient(135deg, #ff4b4b, #ff69b4);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid white;
+            box-shadow: 0 10px 50px rgba(255, 75, 75, 0.5);
+            margin-bottom: 25px;
+        }
+
+        .valentine-box h1 {
+            margin: 0 0 15px 0;
+            font-size: 28px;
+        }
+
+        .valentine-box p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 90px 15px 100px;
+            }
+            
+            .menu-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-header h2 {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Particules flottantes -->
+    <div class="particle particle1">✨</div>
+    <div class="particle particle2">💜</div>
+    <div class="particle particle3">💕</div>
+    <div class="particle particle4">🌟</div>
 
-<div class="header">
-    <h1 id="main-title">Bae ❤️</h1>
-    <div id="days-count" style="font-size: 12px; color: #a765e6; margin-top: 4px;"></div>
-</div>
-
-<div class="container">
-    <div class="mood-tracker">
-        <button class="mood-btn" onclick="mood('fatigue')">🌙</button>
-        <button class="mood-btn" onclick="mood('motivation')">🔥</button>
-        <button class="mood-btn" onclick="mood('calin')">🥺</button>
-        <button class="mood-btn" onclick="mood('faim')">🍕</button>
+    <!-- Header -->
+    <div class="chat-header">
+        <h2>💜 Bae</h2>
+        <div class="online-status">
+            <div class="pulse-dot"></div>
+            <span>en ligne</span>
+        </div>
     </div>
 
-    <div class="action-row">
-        <button class="btn-action" onclick="toggleVideo()">✨ Notre Coin Secret</button>
-        <button class="btn-action" onclick="dailyMessage()">💌 Message du Jour</button>
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Compte à rebours Saint-Valentin -->
+        <div id="countdownContainer"></div>
+
+        <!-- Boutons menu -->
+        <div class="menu-buttons">
+            <button class="btn" onclick="showSecret()">✨ Notre coin secret</button>
+            <button class="btn" onclick="showMessage()">💌 Message du jour</button>
+            <button class="btn" onclick="showMood()">📊 Comment tu te sens ?</button>
+            <button class="btn" onclick="showCompliment()">🎁 Compliment surprise</button>
+        </div>
+
+        <!-- Compteur de jours -->
+        <div class="days-counter" id="daysCounter"></div>
+
+        <!-- Chat -->
+        <div class="chat-container" id="chatContainer">
+            <div class="message assistant">
+                <div class="message-bubble">
+                    <span class="emoji">👋</span>
+                    <span>Coucou Babe ❤️ Je suis là. Comment tu te sens ?</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="video-container">
-        <video id="myVideo" controls>
-            <source src="Souvenir.mp4" type="video/mp4">
-            Ton navigateur ne supporte pas la vidéo.
-        </video>
+    <!-- Input zone -->
+    <div class="input-container">
+        <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="Écris à ton Bae..." onkeypress="handleKeyPress(event)">
+            <button id="sendBtn" onclick="sendMessage()">💜</button>
+        </div>
     </div>
 
-    <div id="chat-box">
-        <div class="msg bot" id="welcome-msg">Coucou ma chérie ❤️ Comment te sens-tu ?</div>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" onclick="closeModal()">Fermer ❤️</button>
+        </div>
     </div>
-</div>
 
-<div class="input-area">
-    <input type="text" id="user-input" placeholder="Parle-moi, Ivette...">
-    <button class="send-btn" onclick="sendMessage()">✈️</button>
-</div>
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
 
-<script>
-    const dateRencontre = new Date('2023-07-01');
+    <script>
+        // ===== CONFIGURATION =====
+        const dateRencontre = new Date('2023-07-01');
+        const saintValentin = new Date('2026-02-14');
+        const surnoms = ["Babe", "Ivette", "mon cœur", "ma chérie", "mon amour", "ma princesse", "ma belle"];
 
-    // 1. GESTION DU MODE NUIT DYNAMIQUE
-    function applyNightMode() {
-        const hour = new Date().getHours();
-        if (hour >= 22 || hour < 6) {
-            document.body.classList.add('night-mode');
-            document.getElementById('welcome-msg').innerText = "Tu ne dors pas encore, ma lune ? 🌙 Viens me parler...";
+        // ===== FONCTIONS UTILITAIRES =====
+        function getSurnom() {
+            return surnoms[Math.floor(Math.random() * surnoms.length)];
         }
-    }
-    applyNightMode();
 
-    // 2. COMPTEUR DE JOURS
-    function updateHeader() {
-        const now = new Date();
-        const diff = Math.floor((now - dateRencontre) / (1000 * 60 * 60 * 24));
-        document.getElementById('days-count').innerText = `● en ligne | ${diff} jours de bonheur`;
-    }
-    updateHeader();
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 3000);
+        }
 
-    // 3. MOOD TRACKER LOGIC
-    const moods = {
-        fatigue: "Oh ma pauvre chérie... pose tout et repose-toi. Je suis là mentalement. 😴",
-        motivation: "T'es une warrior Ivette ! Ne lâche rien, je crois en toi plus que tout ! 🔥",
-        calin: "Viens là... Je te serre fort fort fort dans mes bras virtuels. 🫂❤️",
-        faim: "Babe a faim ? File manger un truc bon, tu as besoin de forces ! 🍕"
-    };
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
 
-    function mood(type) {
-        addMessage(moods[type], 'bot');
-        // Changement de couleur temporaire
-        document.body.style.filter = "hue-rotate(45deg)";
-        setTimeout(() => document.body.style.filter = "none", 1000);
-    }
+        // ===== COMPTEUR DE JOURS =====
+        function updateCounters() {
+            const now = new Date();
+            const diffTime = Math.abs(now - dateRencontre);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('daysCounter').innerHTML = `
+                ⏳ <b>${diffDays} jours</b> de pur bonheur ensemble ✨<br>
+                <small style='color: #e0b0ff;'>Et ce n'est que le début...</small>
+            `;
 
-    // 4. ACTIONS
-    function toggleVideo() {
-        const v = document.getElementById('video-container');
-        v.style.display = (v.style.display === 'none' || v.style.display === '') ? 'block' : 'none';
-    }
+            // Saint-Valentin
+            const joursRestants = Math.ceil((saintValentin - now) / (1000 * 60 * 60 * 24));
+            const countdownContainer = document.getElementById('countdownContainer');
+            
+            if (joursRestants > 0) {
+                countdownContainer.innerHTML = `
+                    <div class="countdown-box">
+                        💝 <b>J-${joursRestants} jours</b> avant ta surprise de Saint-Valentin... patience mon amour ! 🌹
+                    </div>
+                `;
+            } else {
+                countdownContainer.innerHTML = `
+                    <div class="valentine-box">
+                        <h1>❤️ JOYEUSE SAINT-VALENTIN ❤️</h1>
+                        <p>Mon amour, aujourd'hui est un jour spécial. Merci d'être dans ma vie.</p>
+                        <p>🎁 <i>[Ta surprise ici : ex: Je t'emmène au resto ce soir !]</i></p>
+                    </div>
+                `;
+            }
+        }
 
-    function dailyMessage() {
-        const msgs = [
-            "Tu es la plus belle rencontre de ma vie. ✨",
-            "Ivette, ton sourire est ma drogue préférée. 😍",
-            "N'oublie jamais à quel point tu es forte. 💪",
-            "Je t'aime plus que tout au monde. ❤️"
-        ];
-        addMessage(msgs[Math.floor(Math.random()*msgs.length)], 'bot');
-    }
+        // ===== BASE DE DONNÉES DES RÉPONSES =====
+        const database = {
+            fatigue: {
+                keywords: ["fatigué", "fatigue", "épuisé", "dodo", "sommeil", "naze", "crevé", "dormir", "exténué", "épuisée", "claquée", "hs", "morte"],
+                replies: [
+                    {text: `Oh ${getSurnom()}... pose tout et viens te reposer un peu avec moi. ❤️`, emoji: "😴"},
+                    {text: `Je sens la fatigue d'ici ${getSurnom()}. Si j'étais là, je te ferais un massage pour que tu t'endormes direct. 🫂`, emoji: "💆‍♀️"},
+                    {text: `Repose-toi ${getSurnom()}. Tu as trop travaillé aujourd'hui, tu mérites du calme. ✨`, emoji: "🛌"},
+                    {text: "Ferme les yeux quelques minutes... je reste là avec toi. 🫂", emoji: "💤"},
+                    {text: `${getSurnom()}, t'as le droit de souffler tu sais. Pose ton tel et fais une micro-sieste. 😴`, emoji: "🌙"},
+                    {text: "Tu travailles trop dur... Laisse-moi prendre soin de toi mentalement là, d'accord ? 💜", emoji: "🫂"}
+                ]
+            },
+            colere: {
+                keywords: ["fâché", "faché", "colère", "énerve", "énervé", "marre", "saoule", "injuste", "haine", "rage", "agacé", "relou"],
+                replies: [
+                    {text: `Dis-moi qui a osé t'énerver ${getSurnom()} ? Je suis prêt à aller m'embrouiller avec eux ! 😤`, emoji: "😡"},
+                    {text: `Laisse sortir toute cette colère ${getSurnom()}. Je suis là pour t'écouter. ❤️`, emoji: "🗣️"},
+                    {text: "Balance tout ce que t'as sur le cœur, je suis là. Personne ne t'embête sans conséquences ! 💪", emoji: "😤"},
+                    {text: `${getSurnom()}, respire... Tu veux qu'on imagine ensemble la vengeance parfaite ? 😏`, emoji: "😈"}
+                ]
+            },
+            stress: {
+                keywords: ["stress", "angoisse", "peur", "examen", "boulot", "travail", "pression", "panique", "anxieux", "inquiet", "débordé"],
+                replies: [
+                    {text: `Respire un grand coup ${getSurnom()}. Tu vas tout déchirer. ❤️`, emoji: "🧘‍♀️"},
+                    {text: "Je crois en toi plus que n'importe qui. ✨", emoji: "🌟"},
+                    {text: `${getSurnom()}, découpe ça en petites étapes. Une chose à la fois, ok ? 💜`, emoji: "📋"},
+                    {text: "Tu stresses parce que tu veux bien faire. Mais tu ES déjà incroyable. 🫂", emoji: "💪"}
+                ]
+            },
+            amour: {
+                keywords: ["je t'aime", "t'aime", "love", "manque", "besoin", "voir", "viens", "miss", "câlin", "bisou", "envie de toi"],
+                replies: [
+                    {text: "Je t'aime encore plus, tu n'as même pas idée... ❤️", emoji: "💖"},
+                    {text: `Tu me manques tellement ${getSurnom()}. Vivement qu'on se voie. 🫂`, emoji: "🥺"},
+                    {text: "Mon cœur fait des bonds quand je lis ça... Je t'aime trop. 💜", emoji: "💓"},
+                    {text: `${getSurnom()}, si je pouvais me téléporter là maintenant... 🚀`, emoji: "🫂"}
+                ]
+            },
+            joie: {
+                keywords: ["content", "heureuse", "heureux", "joie", "trop bien", "génial", "super", "cool", "youpi", "yes", "réussi", "victoire"],
+                replies: [
+                    {text: `Yeees ${getSurnom()} ! Ton bonheur c'est mon bonheur ! 🎉`, emoji: "😄"},
+                    {text: "J'adore te voir heureuse comme ça ! Continue à rayonner ! ✨", emoji: "🌟"},
+                    {text: `Tu mérites tout ce bonheur ${getSurnom()} ! Profite à fond ! 🎊`, emoji: "🥳"}
+                ]
+            },
+            tristesse: {
+                keywords: ["triste", "pleure", "mal", "blessé", "déçu", "déception", "chagrin", "peine", "cafard", "blues"],
+                replies: [
+                    {text: `Viens là ${getSurnom()}... Je te fais un câlin virtuel géant. 🫂`, emoji: "🥺"},
+                    {text: "Ça va aller mon cœur. Je suis là, tu peux tout me dire. ❤️", emoji: "💔"},
+                    {text: `${getSurnom()}, pleure si t'as besoin. C'est pas une faiblesse, c'est humain. 💜`, emoji: "😢"}
+                ]
+            },
+            travail: {
+                keywords: ["réunion", "dossier", "client", "patron", "collègue", "deadline", "urgent", "meeting", "projet"],
+                replies: [
+                    {text: `Courage ${getSurnom()} ! T'es une warrior, tu vas tout gérer ! 💪`, emoji: "👩‍💼"},
+                    {text: "Ils ont de la chance de t'avoir au boulot. T'es une boss ! 🔥", emoji: "⚡"},
+                    {text: `${getSurnom()}, un pas après l'autre. Tu vas cartonner comme d'hab ! ✨`, emoji: "🎯"}
+                ]
+            },
+            faim: {
+                keywords: ["faim", "manger", "bouffe", "nourriture", "resto", "pizza", "burger", "food", "dalle"],
+                replies: [
+                    {text: `${getSurnom()}, va te faire plaisir ! T'as mérité un bon repas ! 🍕`, emoji: "😋"},
+                    {text: "Si j'étais là je te cuisinerais un truc de ouf ! 👨‍🍳", emoji: "🍝"},
+                    {text: "Allez file manger mon cœur ! Prends des forces ! 💪", emoji: "🍔"}
+                ]
+            },
+            compliment: {
+                keywords: ["tu es", "t'es beau", "t'es gentil", "j'aime bien", "t'es le meilleur", "merci", "t'es adorable"],
+                replies: [
+                    {text: `Awww ${getSurnom()}... T'es trop mignonne ! 🥹`, emoji: "😊"},
+                    {text: "C'est toi qui es incroyable ! Je fais juste de mon mieux pour toi. ❤️", emoji: "💜"},
+                    {text: `${getSurnom()}, tu me fais rougir là... 😳`, emoji: "☺️"}
+                ]
+            },
+            encouragement: {
+                keywords: ["je peux pas", "c'est dur", "j'y arrive pas", "impossible", "trop difficile"],
+                replies: [
+                    {text: `SI TU PEUX ${getSurnom().toUpperCase()} ! J'ai confiance en toi ! 💪`, emoji: "🔥"},
+                    {text: "T'as déjà surmonté pire que ça ! Tu es forte ! ⚡", emoji: "💜"},
+                    {text: `${getSurnom()}, découpe en petits morceaux. Étape par étape. Tu vas y arriver ! 🎯`, emoji: "✨"}
+                ]
+            },
+            fierte: {
+                keywords: ["fier", "fière", "réussi", "j'ai fait", "accompli", "gagné", "validé"],
+                replies: [
+                    {text: `WOOOOW ${getSurnom()} ! Je suis tellement fier de toi ! 🎉`, emoji: "🏆"},
+                    {text: "Tu vois ? Je savais que tu allais y arriver ! 💪", emoji: "⭐"},
+                    {text: "C'est MA copine ça ! La meilleure ! 👑", emoji: "💜"}
+                ]
+            },
+            rire: {
+                keywords: ["mdr", "lol", "haha", "ptdr", "rigole", "blague", "drôle"],
+                replies: [
+                    {text: `Ah tu rigoles ${getSurnom()} ? J'adore ton rire ! 😄`, emoji: "😂"},
+                    {text: "T'es trop marrante sérieux ! 🤣", emoji: "😆"},
+                    {text: "Ton rire c'est ma sonnerie préférée ! 🎵", emoji: "😁"}
+                ]
+            }
+        };
 
-    // 5. CHAT LOGIC
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        const text = input.value.trim();
-        if (!text) return;
+        // ===== INTELLIGENCE DU CHAT =====
+        function getBotResponse(userText) {
+            const text = userText.toLowerCase();
+            
+            // Détection multi-catégories
+            const matchedCategories = [];
+            for (const category in database) {
+                if (database[category].keywords.some(keyword => text.includes(keyword))) {
+                    matchedCategories.push(category);
+                }
+            }
 
-        addMessage(text, 'user');
-        input.value = '';
+            // Easter egg
+            if (text.includes("je t'adore") || text.includes("love you")) {
+                setTimeout(() => showToast("💜 Je t'adore encore plus !"), 500);
+            }
 
-        setTimeout(() => {
-            const reply = getBotReply(text);
-            addMessage(reply, 'bot');
-        }, 600);
-    }
+            if (matchedCategories.length > 0) {
+                const chosenCategory = matchedCategories[Math.floor(Math.random() * matchedCategories.length)];
+                const replies = database[chosenCategory].replies;
+                return replies[Math.floor(Math.random() * replies.length)];
+            }
 
-    function getBotReply(text) {
-        const t = text.toLowerCase();
-        if(t.includes("aime")) return "Je t'aime encore plus, c'est impossible de gagner ! 💖";
-        if(t.includes("manque")) return "Toi aussi tu me manques terriblement... 🥺";
-        return "Dis-m'en plus ma chérie, je t'écoute... ❤️";
-    }
+            // Réponses par défaut
+            const defaultReplies = [
+                {text: `Mmmh je vois ${getSurnom()}... dis-m'en plus ? ❤️`, emoji: "💜"},
+                {text: "T'es incroyable, j'aime trop t'écouter. ✨", emoji: "⭐"},
+                {text: `Continue ${getSurnom()}, je suis tout ouïe ! 👂`, emoji: "😊"},
+                {text: "Intéressant... Et après ? 🤔", emoji: "💭"},
+                {text: `${getSurnom()}, t'as toute mon attention là ! 💜`, emoji: "👀"}
+            ];
+            
+            return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+        }
 
-    function addMessage(text, side) {
-        const chatBox = document.getElementById('chat-box');
-        const div = document.createElement('div');
-        div.className = `msg ${side}`;
-        div.innerText = text;
-        chatBox.appendChild(div);
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-</script>
+        // ===== GESTION DU CHAT =====
+        function addMessage(text, isUser = false, emoji = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            
+            if (!isUser && emoji) {
+                bubbleDiv.innerHTML = `<span class="emoji">${emoji}</span><span>${text}</span>`;
+            } else {
+                bubbleDiv.textContent = text;
+            }
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            
+            if (text === '') return;
+            
+            addMessage(text, true);
+            input.value = '';
+            
+            setTimeout(() => {
+                const response = getBotResponse(text);
+                addMessage(response.text, false, response.emoji);
+            }, 800);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // ===== MODALES =====
+        function showModal(content) {
+            document.getElementById('modalContent').innerHTML = content + '<button class="modal-close" onclick="closeModal()">Fermer ❤️</button>';
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function showSecret() {
+            showModal(`
+                <h2 style="color: #e0b0ff; margin-bottom: 15px;">✨ Notre coin secret</h2>
+                <p style="color: #da70d6; font-style: italic; margin-bottom: 15px;">
+                    « Si tu regardes ça, c'est sûrement que tu pensais à nous. Moi aussi je pense à toi. »
+                </p>
+                <video controls style="width: 100%; border-radius: 15px; margin-top: 15px;">
+                    <source src="Souvenir.mp4" type="video/mp4">
+                    Vidéo non disponible pour le moment ❤️
+                </video>
+            `);
+        }
+
+        function showMessage() {
+            const messages = [
+                "Tu es la plus belle rencontre de ma vie. ✨",
+                "N'oublie jamais à quel point tu es forte. 💪",
+                "Je suis fier de toi. ❤️",
+                "Babe, tu illumines mes journées même quand t'es pas là. 💜",
+                "Ivette, chaque jour avec toi est un cadeau. 🎁",
+                "T'es ma personne préférée au monde, tu le sais ça ? 🌍",
+                "Quand je pense à toi, je souris comme un idiot. 😊",
+                "Tu mérites tout le bonheur du monde. 🌟",
+                "Ton sourire pourrait illuminer la ville entière. ☀️",
+                "Je t'aime plus que tous les mots que je connais. 💕",
+                "T'es pas juste ma copine, t'es ma meilleure amie aussi. 🫂",
+                "Chaque message de toi rend ma journée meilleure. 📱",
+                "Tu es exactement là où tu dois être. ✨",
+                "Personne ne me comprend comme toi. 💜",
+                "Tu rends ma vie tellement plus belle. 🌈",
+                "Je crois en tes rêves autant qu'aux miens. 🌠",
+                "Ton rire est ma chanson préférée. 🎵",
+                "Merci d'exister Ivette. Vraiment. 🙏",
+                "T'es courageuse même quand tu ne le sens pas. 🦁",
+                "Ensemble on peut tout affronter. 💪",
+                "Tu me rends meilleur juste en étant toi. 🌟",
+                "Nos silences sont aussi beaux que nos conversations. 🌙",
+                "Je suis chanceux de t'avoir dans ma vie. 🍀",
+                "Ta présence = mon bonheur. C'est mathématique. ➕",
+                "Tu es la raison pour laquelle je crois en l'amour. 💝",
+                "Chaque jour avec toi est une nouvelle aventure. 🗺️",
+                "Tu transformes l'ordinaire en extraordinaire. ✨",
+                "Ton intelligence me fascine autant que ta beauté. 🧠💜",
+                "Je te choisis. Aujourd'hui, demain, toujours. 💍",
+                "Babe, t'es littéralement parfaite pour moi. 🎯"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showModal(`
+                <h2 style="color: #e0b0ff; margin-bottom: 15px;">💌 Message du jour</h2>
+                <p style="color: white; font-size: 18px; line-height: 1.6;">
+                    ${randomMessage}
+                </p>
+            `);
+        }
+
+        function showMood() {
+            showModal(`
+                <h2 style="color: #e0b0ff; margin-bottom: 15px;">📊 Ton humeur aujourd'hui ?</h2>
+                <div style="font-size: 40px; margin: 20px 0;">
+                    😊 😌 😤 😴 🥺 🥳
+                </div>
+                <p style="color: #da70d6; font-size: 14px;">
+                    💜 Je garde un œil sur ton bien-être
+                </p>
+            `);
+        }
+
+        function showCompliment() {
+            const compliments = [
+                "Tes yeux pourraient mettre des étoiles au chômage. ✨",
+                "Ta détermination est sexy. 💪",
+                "Tu es intelligente ET belle. Combo parfait. 🎯",
+                "Ton sourire devrait être classé patrimoine mondial. 😊",
+                "Tu gères tellement bien ta vie, c'est impressionnant. 👑",
+                "Ta voix = ASMR naturel pour moi. 🎵",
+                "Tu es unique Ivette. Littéralement irremplaçable. 💎",
+                "T'as un charme fou, tu le sais ça ? 💫",
+                "Ton énergie est contagieuse ! ⚡",
+                "T'es belle même quand tu dors (oui je t'ai observée 👀). 😴"
+            ];
+            
+            const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+            showModal(`
+                <h2 style="color: #e0b0ff; margin-bottom: 15px;">🎁 Compliment surprise</h2>
+                <p style="color: white; font-size: 18px; line-height: 1.6;">
+                    ${randomCompliment}
+                </p>
+            `);
+        }
+
+        // ===== INITIALISATION =====
+        window.onload = function() {
+            updateCounters();
+            setInterval(updateCounters, 3600000); // Update toutes les heures
+        };
+    </script>
 </body>
 </html>

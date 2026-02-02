@@ -3,122 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bae & Ivette ❤️</title>
+    <title>Parfait & Ivette ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #9b59b6;
-            --accent: #ffb7c5;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-
-        body {
-            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(-45deg, #0d1117, #1a0b2e, #2d1b4e, #0d1117);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-            color: white; overflow-x: hidden; min-height: 100vh;
-        }
-
+        :root { --primary: #9b59b6; --accent: #ffb7c5; --glass: rgba(255, 255, 255, 0.05); }
+        body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; background: linear-gradient(-45deg, #0d1117, #1a0b2e, #2d1b4e, #0d1117); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: white; overflow-x: hidden; min-height: 100vh; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* Mots flottants */
+        .floating-word { position: fixed; color: var(--accent); opacity: 0.4; font-size: 14px; pointer-events: none; z-index: 0; animation: floatUp 10s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 0.4; } 90% { opacity: 0.4; } 100% { transform: translateY(-100vh); opacity: 0; } }
 
-        /* Pluie de mots doux */
-        .floating-word {
-            position: fixed; color: var(--accent); opacity: 0; font-size: 14px;
-            pointer-events: none; z-index: 0; animation: floatUp 10s linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
-
-        .container { position: relative; z-index: 1; padding: 100px 20px 140px; max-width: 500px; margin: auto; }
-
-        .header {
-            position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(20px); padding: 15px; text-align: center;
-            border-bottom: 1px solid rgba(155, 89, 182, 0.3); z-index: 1000;
-        }
+        .header { position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.8); backdrop-filter: blur(20px); padding: 15px; text-align: center; border-bottom: 1px solid rgba(155, 89, 182, 0.3); z-index: 1000; }
         .header h1 { font-family: 'Dancing Script', cursive; margin: 0; font-size: 28px; color: var(--accent); }
+        
+        .container { position: relative; z-index: 1; padding: 100px 15px 140px; max-width: 500px; margin: auto; }
 
-        /* Capsule Temporelle */
-        .capsule-card {
-            background: rgba(0, 0, 0, 0.3); border: 1px dashed var(--primary);
-            border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 25px;
-        }
-        .lock-icon { font-size: 30px; margin-bottom: 10px; }
-
-        /* Ticket à Gratter */
-        .scratch-container {
-            position: relative; width: 280px; height: 150px; margin: 20px auto;
-            background: white; border-radius: 15px; overflow: hidden;
-        }
-        .scratch-content {
-            position: absolute; width: 100%; height: 100%; display: flex;
-            align-items: center; justify-content: center; flex-direction: column;
-            color: #333; text-align: center; padding: 10px; box-sizing: border-box;
-        }
+        /* Capsule & Grattage */
+        .card-spec { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--primary); border-radius: 20px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .scratch-container { position: relative; width: 280px; height: 120px; margin: 10px auto; background: white; border-radius: 15px; overflow: hidden; }
+        .scratch-content { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold; text-align: center; padding: 10px; box-sizing: border-box; }
         #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
 
-        /* Mood Grid */
-        .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .mood-btn {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 5px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .mood-btn:hover { background: rgba(155, 89, 182, 0.3); transform: translateY(-3px); }
+        /* Moods */
+        .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .mood-btn { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 5px; border-radius: 15px; text-align: center; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .mood-btn:active { transform: scale(0.9); }
 
         /* Chat */
-        .chat-box { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .msg { padding: 12px 16px; border-radius: 20px; max-width: 80%; font-size: 14px; }
-        .bot { background: rgba(106, 17, 203, 0.4); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .user { background: rgba(255, 255, 255, 0.1); align-self: flex-end; border-bottom-right-radius: 2px; }
+        .chat-box { display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 14px; line-height: 1.4; }
+        .bot { background: #4a148c; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .user { background: #2c3e50; align-self: flex-end; border-bottom-right-radius: 2px; }
 
-        .input-area {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 450px; background: rgba(26, 11, 46, 0.9);
-            padding: 8px; border-radius: 30px; border: 1px solid var(--primary);
-            display: flex; z-index: 1001;
-        }
-        input { flex: 1; background: transparent; border: none; padding: 10px 15px; color: white; outline: none; }
-        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; }
+        /* Input area FIXED */
+        .input-area { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; background: #0d1117; padding: 10px; border-radius: 30px; border: 1px solid var(--primary); display: flex; align-items: center; z-index: 2000; }
+        input { flex: 1; background: transparent; border: none; padding: 8px 15px; color: white; outline: none; font-size: 16px; }
+        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
 <div id="words-container"></div>
-<div id="animation-layer" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10000;"></div>
-
 <div class="header">
-    <h1>Bae ❤️ Ivette</h1>
+    <h1>Parfait ❤️ Ivette</h1>
     <div id="counter" style="font-size: 10px; color: var(--accent);"></div>
 </div>
 
 <div class="container">
-    <div class="capsule-card" id="capsule">
-        <div class="lock-icon">🔒</div>
-        <div id="capsule-text">Lettre scellée jusqu'au 14 Février...</div>
-        <div id="capsule-timer" style="font-size: 12px; margin-top: 5px; color: var(--accent);"></div>
+    <div class="card-spec" id="capsule">
+        <div style="font-size: 24px;">🔒</div>
+        <div id="capsule-text">Lettre scellée pour le 14 Février...</div>
+        <div id="capsule-timer" style="font-size: 11px; color: var(--accent);"></div>
     </div>
 
-    <div style="text-align: center; font-size: 13px; color: var(--accent);">✨ Gratte ton cadeau du jour ✨</div>
-    <div class="scratch-container">
-        <div class="scratch-content">
-            <b style="color: #9b59b6;">CADEAU :</b>
-            <span id="scratch-reward" style="font-size: 18px; font-weight: bold;">Un massage de 30min 💆‍♀️</span>
-            <small style="margin-top: 5px;">(Capture d'écran pour réclamer !)</small>
+    <div class="card-spec">
+        <div style="font-size: 13px; margin-bottom: 10px;">✨ Gratte ton cadeau du jour ✨</div>
+        <div class="scratch-container">
+            <div class="scratch-content" id="reward-text">Un énorme bisou tout doux 💋</div>
+            <canvas id="scratch-canvas" width="280" height="120"></canvas>
         </div>
-        <canvas id="scratch-canvas" width="280" height="150"></canvas>
     </div>
 
     <div class="mood-grid">
-        <div class="mood-btn" onclick="mood('fatigue')">🌙<br><small>Fatiguée</small></div>
-        <div class="mood-btn" onclick="mood('calin')">🥺<br><small>Câlin</small></div>
-        <div class="mood-btn" onclick="mood('amour')">💖<br><small>Love</small></div>
-        <div class="mood-btn" onclick="mood('content')">😁<br><small>Happy</small></div>
-        <div class="mood-btn" onclick="mood('ennuie')">🥱<br><small>Ennui</small></div>
-        <div class="mood-btn" onclick="toggleSecret()">✨<br><small>Secret</small></div>
+        <div class="mood-btn" onclick="triggerMood('fatigue')">😴<br>Fatiguée</div>
+        <div class="mood-btn" onclick="triggerMood('calin')">🥺<br>Un câlin</div>
+        <div class="mood-btn" onclick="triggerMood('amour')">💖<br>Love</div>
+        <div class="mood-btn" onclick="triggerMood('content')">😁<br>Contente</div>
+        <div class="mood-btn" onclick="triggerMood('ennuie')">🥱<br>Ennui</div>
+        <div class="mood-btn" onclick="toggleSecret()">✨<br>Secret</div>
     </div>
 
     <div id="secret-zone" style="display:none; margin-bottom: 20px; border-radius: 15px; overflow: hidden; border: 1px solid var(--primary);">
@@ -126,25 +79,114 @@
     </div>
 
     <div id="chat-box" class="chat-box">
-        <div class="msg bot">Coucou ma lune, prête pour une belle journée ? ✨</div>
+        <div class="msg bot">Coucou Ivette, comment vas-tu mon cœur ? ✨</div>
     </div>
 </div>
 
 <div class="input-area">
-    <input type="text" id="user-input" placeholder="Parle-moi...">
-    <button class="send-btn" onclick="sendMessage()">✈️</button>
+    <input type="text" id="user-input" placeholder="Écris-moi quelque chose...">
+    <button class="send-btn" onclick="handleSend()">✈️</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <script>
-    // 1. COMPTEUR & CAPSULE
-    const startDate = new Date('2023-07-01');
+    // --- Dates & Compteur ---
+    const start = new Date('2023-07-01');
     const vDate = new Date('2026-02-14T00:00:00');
 
-    function update() {
+    function updateCounter() {
         const now = new Date();
-        const diff = Math.floor((now - startDate) / 86400000);
+ --primary: #9b59b6; --accent: #ffb7c5; --glass: rgba(255, 255, 255, 0.05); }
+        body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; background: linear-gradient(-45deg, #0d1117, #1a0b2e, #2d1b4e, #0d1117); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: white; overflow-x: hidden; min-height: 100vh; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* Mots flottants */
+        .floating-word { position: fixed; color: var(--accent); opacity: 0.4; font-size: 14px; pointer-events: none; z-index: 0; animation: floatUp 10s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 0.4; } 90% { opacity: 0.4; } 100% { transform: translateY(-100vh); opacity: 0; } }
+
+        .header { position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.8); backdrop-filter: blur(20px); padding: 15px; text-align: center; border-bottom: 1px solid rgba(155, 89, 182, 0.3); z-index: 1000; }
+        .header h1 { font-family: 'Dancing Script', cursive; margin: 0; font-size: 28px; color: var(--accent); }
+        
+        .container { position: relative; z-index: 1; padding: 100px 15px 140px; max-width: 500px; margin: auto; }
+
+        /* Capsule & Grattage */
+        .card-spec { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--primary); border-radius: 20px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .scratch-container { position: relative; width: 280px; height: 120px; margin: 10px auto; background: white; border-radius: 15px; overflow: hidden; }
+        .scratch-content { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold; text-align: center; padding: 10px; box-sizing: border-box; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+
+        /* Moods */
+        .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .mood-btn { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 5px; border-radius: 15px; text-align: center; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .mood-btn:active { transform: scale(0.9); }
+
+        /* Chat */
+        .chat-box { display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 14px; line-height: 1.4; }
+        .bot { background: #4a148c; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .user { background: #2c3e50; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        /* Input area FIXED */
+        .input-area { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; background: #0d1117; padding: 10px; border-radius: 30px; border: 1px solid var(--primary); display: flex; align-items: center; z-index: 2000; }
+        input { flex: 1; background: transparent; border: none; padding: 8px 15px; color: white; outline: none; font-size: 16px; }
+        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+<div id="words-container"></div>
+<div class="header">
+    <h1>Parfait ❤️ Ivette</h1>
+    <div id="counter" style="font-size: 10px; color: var(--accent);"></div>
+</div>
+
+<div class="container">
+    <div class="card-spec" id="capsule">
+        <div style="font-size: 24px;">🔒</div>
+        <div id="capsule-text">Lettre scellée pour le 14 Février...</div>
+        <div id="capsule-timer" style="font-size: 11px; color: var(--accent);"></div>
+    </div>
+
+    <div class="card-spec">
+        <div style="font-size: 13px; margin-bottom: 10px;">✨ Gratte ton cadeau du jour ✨</div>
+        <div class="scratch-container">
+            <div class="scratch-content" id="reward-text">Un énorme bisou tout doux 💋</div>
+            <canvas id="scratch-canvas" width="280" height="120"></canvas>
+        </div>
+    </div>
+
+    <div class="mood-grid">
+        <div class="mood-btn" onclick="triggerMood('fatigue')">😴<br>Fatiguée</div>
+        <div class="mood-btn" onclick="triggerMood('calin')">🥺<br>Un câlin</div>
+        <div class="mood-btn" onclick="triggerMood('amour')">💖<br>Love</div>
+        <div class="mood-btn" onclick="triggerMood('content')">😁<br>Contente</div>
+        <div class="mood-btn" onclick="triggerMood('ennuie')">🥱<br>Ennui</div>
+        <div class="mood-btn" onclick="toggleSecret()">✨<br>Secret</div>
+    </div>
+
+    <div id="secret-zone" style="display:none; margin-bottom: 20px; border-radius: 15px; overflow: hidden; border: 1px solid var(--primary);">
+        <video width="100%" controls id="vid"><source src="Souvenir.mp4" type="video/mp4"></video>
+    </div>
+
+    <div id="chat-box" class="chat-box">
+        <div class="msg bot">Coucou Ivette, comment vas-tu mon cœur ? ✨</div>
+    </div>
+</div>
+
+<div class="input-area">
+    <input type="text" id="user-input" placeholder="Écris-moi quelque chose...">
+    <button class="send-btn" onclick="handleSend()">✈️</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    // --- Dates & Compteur ---
+    const start = new Date('2023-07-01');
+    const vDate = new Date('2026-02-14T00:00:00');
+
+    function updateCounter() {
+        const now = new Date();
+        const diff = Math.floor((now - start) / 86400000);
         document.getElementById('counter').innerText = `✨ ${diff} jours à t'aimer ✨`;
 
         const timeLeft = vDate - now;
@@ -153,34 +195,28 @@
             const h = Math.floor((timeLeft % 86400000) / 3600000);
             document.getElementById('capsule-timer').innerText = `Ouverture dans ${d}j ${h}h`;
         } else {
-            document.getElementById('capsule').innerHTML = "🔓 <br> <b>MESSAGE DE LA ST VALENTIN :</b> <br> Ivette, tu es mon univers. Ce site est le témoin de mon amour éternel. ❤️";
-            document.getElementById('capsule').style.borderStyle = "solid";
+            document.getElementById('capsule').innerHTML = "🔓<br><b>MESSAGE :</b> Tu es ma vie, Ivette. ❤️";
         }
     }
-    setInterval(update, 1000); update();
+    setInterval(updateCounter, 1000); updateCounter();
 
-    // 2. PLUIE DE MOTS DOUX
-    const words = ["Ivette", "Ma Reine", "Unique", "Forte", "Mon Cœur", "Lumière", "Beauté", "Mienne"];
-    function createWords() {
-        const container = document.getElementById('words-container');
-        setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'floating-word';
-            el.innerText = words[Math.floor(Math.random() * words.length)];
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 5 + 7) + 's';
-            container.appendChild(el);
-            setTimeout(() => el.remove(), 10000);
-        }, 2000);
-    }
-    createWords();
+    // --- Mots Flottants ---
+    const words = ["Ivette", "Ma Reine", "Unique", "Forte", "Mon Cœur", "Lumière"];
+    setInterval(() => {
+        const el = document.createElement('div');
+        el.className = 'floating-word';
+        el.innerText = words[Math.floor(Math.random() * words.length)];
+        el.style.left = Math.random() * 90 + 'vw';
+        document.getElementById('words-container').appendChild(el);
+        setTimeout(() => el.remove(), 10000);
+    }, 3000);
 
-    // 3. TICKET À GRATTER
+    // --- Grattage ---
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0, 0, 280, 150);
-    ctx.fillStyle = '#9b59b6'; ctx.font = "20px Quicksand"; ctx.fillText("Gratte ici ❤️", 80, 80);
-
+    ctx.fillStyle = '#888'; ctx.fillRect(0, 0, 280, 120);
+    ctx.fillStyle = 'white'; ctx.font = "16px Arial"; ctx.fillText("Gratte ici ❤️", 95, 65);
+    
     let isDrawing = false;
     function scratch(e) {
         if (!isDrawing) return;
@@ -188,57 +224,65 @@
         const x = (e.clientX || e.touches[0].clientX) - rect.left;
         const y = (e.clientY || e.touches[0].clientY) - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 15, 0, Math.PI * 2); ctx.fill();
     }
     canvas.addEventListener('mousedown', () => isDrawing = true);
     canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('mouseup', () => isDrawing = false);
+    window.addEventListener('mouseup', () => isDrawing = false);
     canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
-    canvas.addEventListener('touchmove', (e) => { scratch(e); });
+    canvas.addEventListener('touchmove', scratch);
 
-    // 4. CHAT & MOODS
-    const db = {
-        fatigue: "Ferme les yeux, je suis là... 🌙❤️",
-        calin: "Je t'enlace si fort que tu peux sentir mon cœur... 🥺💜",
-        amour: "Je t'aime plus que les mots ne peuvent le dire. 💖",
-        content: "Ton sourire est ma plus belle vue ! 😁✨",
-        ennuie: "Dis-moi ce qui te ferait rire là maintenant ? 🤔"
+    // --- BOT LOGIQUE ---
+    const responses = {
+        fatigue: { user: "Je suis fatiguée... 🌙", bot: "Repose-toi mon ange. Je veille sur toi. 😴❤️" },
+        calin: { user: "J'ai besoin d'un câlin... 🥺", bot: "Je te serre si fort contre moi. Imagine mes bras... 🫂💜" },
+        amour: { user: "Besoin d'amour 💖", bot: "Je t'aime plus que tout au monde, ne l'oublie jamais. ✨" },
+        content: { user: "Je suis super contente ! 😁", bot: "Ton sourire illumine ma journée ! ✨" },
+        ennuie: { user: "Je m'ennuie un peu... 🥱", bot: "Dis-moi ce qui te ferait plaisir là maintenant ? 🤔" }
     };
 
-    function mood(type) {
-        addMsg(type === 'amour' ? "Besoin d'amour 💖" : "Je me sens " + type, 'user');
+    function triggerMood(type) {
+        addMsg(responses[type].user, 'user');
         setTimeout(() => {
-            addMsg(db[type], 'bot');
-            if(type === 'amour') heartEffect();
+            addMsg(responses[type].bot, 'bot');
+            if(type === 'amour') spawnHearts();
             if(type === 'content') confetti();
-        }, 600);
+        }, 700);
+    }
+
+    function handleSend() {
+        const input = document.getElementById('user-input');
+        const val = input.value.trim();
+        if (!val) return;
+        addMsg(val, 'user');
+        input.value = "";
+        
+        setTimeout(() => {
+            const low = val.toLowerCase();
+            if(low.includes("t'aime")) { addMsg("Je t'aime encore plus ! ❤️", 'bot'); spawnHearts(); }
+            else { addMsg("Je t'écoute mon amour... dis-moi tout. ❤️", 'bot'); }
+        }, 800);
     }
 
     function addMsg(text, side) {
         const box = document.getElementById('chat-box');
         const d = document.createElement('div');
-        d.className = `msg ${side}`; d.innerText = text;
-        box.appendChild(d); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        d.className = `msg ${side}`;
+        d.innerText = text;
+        box.appendChild(d);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function heartEffect() {
+    function spawnHearts() {
         for(let i=0; i<15; i++) {
             const h = document.createElement('div');
             h.innerHTML = "❤️"; h.style.position = "fixed";
             h.style.left = Math.random() * 100 + "vw"; h.style.top = "100vh";
             h.style.fontSize = "25px"; h.style.transition = "all 4s";
             document.body.appendChild(h);
-            setTimeout(() => { h.style.transform = `translateY(-120vh) scale(2)`; h.style.opacity = "0"; }, 100);
+            setTimeout(() => { h.style.transform = `translateY(-120vh) scale(1.5)`; h.style.opacity = "0"; }, 100);
             setTimeout(() => h.remove(), 4000);
         }
-    }
-
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        if(!input.value) return;
-        addMsg(input.value, 'user');
-        if(input.value.toLowerCase().includes("t'aime")) setTimeout(heartEffect, 500);
-        input.value = "";
     }
 
     function toggleSecret() {

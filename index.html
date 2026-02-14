@@ -104,8 +104,8 @@
     </section>
 </div>
 
-<audio id="bg-music" loop><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c4d749e00.mp3"></audio>
-<audio id="voice-msg"><source src="mon-audio.mp3"></audio>
+<audio id="bg-music" loop><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c4d749e00.ogg"></audio>
+<audio id="voice-msg"><source src="mon-audio.ogg"></audio>
 
 <script>
     // TIMER & DEBLOCAGE (Cible 10h le 14 Février)
@@ -180,7 +180,7 @@
         const v = document.getElementById('voice-msg');
         const bg = document.getElementById('bg-music');
         bg.volume = 0.2; 
-        v.play().catch(e => alert("Assure-toi d'avoir ajouté le fichier mon-audio.mp3 !"));
+        v.play().catch(e => alert("Assure-toi d'avoir ajouté le fichier mon-audio.ogg !"));
         v.onended = () => { bg.volume = 1.0; };
     }
 

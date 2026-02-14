@@ -2,249 +2,204 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bae & Ivette ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&family=Dancing+Script:wght@700&family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --primary: #9b59b6;
-            --accent: #ffb7c5;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
+        :root { --primary: #9b59b6; --accent: #ffb7c5; --vip-red: #d63031; --bg: #0d1117; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: white; font-family: 'Quicksand', sans-serif; overflow-x: hidden; min-height: 100vh; }
 
-        body {
-            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(-45deg, #0d1117, #1a0b2e, #2d1b4e, #0d1117);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-            color: white; overflow-x: hidden; min-height: 100vh;
-        }
+        /* --- STYLE GENERAL --- */
+        .container { max-width: 500px; margin: auto; padding: 100px 20px 120px; }
+        .capsule-card { background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--primary); border-radius: 20px; padding: 25px; text-align: center; }
+        
+        /* --- VIP EXPERIENCE --- */
+        #vip-experience { display: none; position: fixed; inset: 0; z-index: 9999; background: #0f0202; overflow: hidden; }
+        .vip-section { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; text-align: center; padding: 25px; transition: all 0.8s ease; }
+        .vip-active { opacity: 1 !important; visibility: visible !important; }
+        
+        .btn-premium { padding: 15px 35px; background: #d63031; color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        #btn-no { position: relative; background: transparent; border: 1px solid white; color: white; padding: 15px 35px; border-radius: 50px; cursor: pointer; }
 
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .letter-paper { background: #fffaf0; color: #1a0505; padding: 25px; border-radius: 10px; text-align: left; font-family: 'Cormorant Garamond', serif; line-height: 1.5; max-width: 90%; overflow-y: auto; max-height: 55vh; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+        .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; opacity: 0; }
 
-        /* Pluie de mots doux */
-        .floating-word {
-            position: fixed; color: var(--accent); opacity: 0; font-size: 14px;
-            pointer-events: none; z-index: 0; animation: floatUp 10s linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
+        .audio-btn { background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-bottom: 15px; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
 
-        .container { position: relative; z-index: 1; padding: 100px 20px 140px; max-width: 500px; margin: auto; }
-
-        .header {
-            position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(20px); padding: 15px; text-align: center;
-            border-bottom: 1px solid rgba(155, 89, 182, 0.3); z-index: 1000;
-        }
-        .header h1 { font-family: 'Dancing Script', cursive; margin: 0; font-size: 28px; color: var(--accent); }
-
-        /* Capsule Temporelle */
-        .capsule-card {
-            background: rgba(0, 0, 0, 0.3); border: 1px dashed var(--primary);
-            border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 25px;
-        }
-        .lock-icon { font-size: 30px; margin-bottom: 10px; }
-
-        /* Ticket à Gratter */
-        .scratch-container {
-            position: relative; width: 280px; height: 150px; margin: 20px auto;
-            background: white; border-radius: 15px; overflow: hidden;
-        }
-        .scratch-content {
-            position: absolute; width: 100%; height: 100%; display: flex;
-            align-items: center; justify-content: center; flex-direction: column;
-            color: #333; text-align: center; padding: 10px; box-sizing: border-box;
-        }
-        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
-
-        /* Mood Grid */
-        .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .mood-btn {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 5px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .mood-btn:hover { background: rgba(155, 89, 182, 0.3); transform: translateY(-3px); }
-
-        /* Chat */
-        .chat-box { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .msg { padding: 12px 16px; border-radius: 20px; max-width: 80%; font-size: 14px; }
-        .bot { background: rgba(106, 17, 203, 0.4); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .user { background: rgba(255, 255, 255, 0.1); align-self: flex-end; border-bottom-right-radius: 2px; }
-
-        .input-area {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 450px; background: rgba(26, 11, 46, 0.9);
-            padding: 8px; border-radius: 30px; border: 1px solid var(--primary);
-            display: flex; z-index: 1001;
-        }
-        input { flex: 1; background: transparent; border: none; padding: 10px 15px; color: white; outline: none; }
-        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; }
+        .floating-word { position: fixed; color: var(--accent); opacity: 0.3; font-size: 14px; pointer-events: none; animation: floatUp 10s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh); } 100% { transform: translateY(-100vh); } }
     </style>
 </head>
 <body>
 
 <div id="words-container"></div>
-<div id="animation-layer" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10000;"></div>
 
-<div class="header">
-    <h1>Bae ❤️ Ivette</h1>
-    <div id="counter" style="font-size: 10px; color: var(--accent);"></div>
-</div>
-
-<div class="container">
-    <div class="capsule-card" id="capsule">
-        <div class="lock-icon">🔒</div>
-        <div id="capsule-text">Lettre scellée jusqu'au 14 Février...</div>
-        <div id="capsule-timer" style="font-size: 12px; margin-top: 5px; color: var(--accent);"></div>
+<div id="main-site">
+    <div style="position:fixed; top:0; width:100%; padding:20px; text-align:center; background:rgba(13,17,23,0.9); z-index:100;">
+        <h1 style="font-family:'Dancing Script'; color:var(--accent);">Bae ❤️ Ivette</h1>
     </div>
-
-    <div style="text-align: center; font-size: 13px; color: var(--accent);">✨ Gratte ton cadeau du jour ✨</div>
-    <div class="scratch-container">
-        <div class="scratch-content">
-            <b style="color: #9b59b6;">CADEAU :</b>
-            <span id="scratch-reward" style="font-size: 18px; font-weight: bold;">Un massage de 30min 💆‍♀️</span>
-            <small style="margin-top: 5px;">(Capture d'écran pour réclamer !)</small>
+    <div class="container">
+        <div class="capsule-card">
+            <div style="font-size:40px;">🎁</div>
+            <p><strong>MESSAGE DE LA ST VALENTIN :</strong><br>
+            Ivette, tu es mon univers. Ce site est le témoin de mon amour pour toi. ❤️</p>
+            <div id="timer" style="font-size:24px; font-weight:bold; color:var(--accent); margin:15px 0;"></div>
+            <button id="btn-vip" class="btn-premium" style="display:none; background:linear-gradient(45deg, #f1c40f, #d63031);" onclick="startVIP()">OUVRIR MON CADEAU 🎁</button>
         </div>
-        <canvas id="scratch-canvas" width="280" height="150"></canvas>
-    </div>
-
-    <div class="mood-grid">
-        <div class="mood-btn" onclick="mood('fatigue')">🌙<br><small>Fatiguée</small></div>
-        <div class="mood-btn" onclick="mood('calin')">🥺<br><small>Câlin</small></div>
-        <div class="mood-btn" onclick="mood('amour')">💖<br><small>Love</small></div>
-        <div class="mood-btn" onclick="mood('content')">😁<br><small>Happy</small></div>
-        <div class="mood-btn" onclick="mood('ennuie')">🥱<br><small>Ennui</small></div>
-        <div class="mood-btn" onclick="toggleSecret()">✨<br><small>Secret</small></div>
-    </div>
-
-    <div id="secret-zone" style="display:none; margin-bottom: 20px; border-radius: 15px; overflow: hidden; border: 1px solid var(--primary);">
-        <video width="100%" controls id="vid"><source src="Souvenir.mp4" type="video/mp4"></video>
-    </div>
-
-    <div id="chat-box" class="chat-box">
-        <div class="msg bot">Coucou ma lune, prête pour une belle journée ? ✨</div>
     </div>
 </div>
 
-<div class="input-area">
-    <input type="text" id="user-input" placeholder="Parle-moi...">
-    <button class="send-btn" onclick="sendMessage()">✈️</button>
+<div id="vip-experience">
+    <section id="v1" class="vip-section vip-active">
+        <h1 style="font-family:'Dancing Script'; font-size:2.5rem; color:var(--accent); margin-bottom:30px;">Veux-tu être ma Valentine ?</h1>
+        <div style="display:flex; gap:20px; position:relative; width:100%; justify-content:center; align-items:center;">
+            <button class="btn-premium" onclick="nextV(2)">OUI ❤️</button>
+            <button id="btn-no" onmouseover="moveNo()" onclick="moveNo()">Non</button>
+        </div>
+        <p id="taunt" style="margin-top:20px; color:var(--accent); min-height:20px; font-style:italic;"></p>
+    </section>
+
+    <section id="v2" class="vip-section">
+        <p style="font-size:13px; font-style:italic; color:#aaa; margin-bottom:20px;">
+            "Spoiler Alert : Même si tu avais réussi à cliquer sur Non, j'avais prévu un bouton 'Tu es sûre ?' qui ne s'arrête jamais. Génie du mal par amour. 😈💖"
+        </p>
+        <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:15px; width:100%;">
+            <h3 id="q-text" style="margin-bottom:15px;"></h3>
+            <div id="q-options"></div>
+        </div>
+    </section>
+
+    <section id="v3" class="vip-section">
+        <h2 style="font-family:'Dancing Script'; font-size:2rem; color:var(--accent);">Nos Moments ✨</h2>
+        <div class="photo-grid">
+            <img src="photo1.jpg"> <img src="photo2.jpg"> <img src="photo3.jpg">
+            <img src="photo4.jpg"> <img src="photo5.jpg"> <img src="photo6.jpg">
+        </div>
+        <button class="btn-premium" onclick="nextV(4)">Lire ma lettre 💌</button>
+    </section>
+
+    <section id="v4" class="vip-section">
+        <button class="audio-btn" onclick="playVoice()"><span>🎙️</span> Écouter mon message</button>
+        <div class="letter-paper">
+            <h3 style="text-align:center;">Mon amour ❤️</h3><br>
+            <p>Aujourd’hui, je voulais juste te dire merci. Merci d’être dans ma vie, pour ta présence, tes efforts et tous les moments qu’on partage.<br><br>
+            Notre histoire n’est pas parfaite, mais elle est vraie… et c’est ce que j’aime le plus. On apprend, on grandit et on avance ensemble 🤍<br><br>
+            Avec toi, je me sens bien, apaisé, à ma place. Ton sourire, ta douceur et ta façon d’être comptent beaucoup pour moi.<br><br>
+            Je ne cherche pas quelque chose de parfait. Je veux juste construire quelque chose de sincère, calme et solide… avec toi.<br><br>
+            Aujourd’hui et chaque jour, mon cœur te choisit ❤️<br><br>
+            Joyeuse Saint-Valentin mon amour 🌹</p>
+        </div>
+        <button class="btn-premium" style="margin-top:20px;" onclick="nextV(5)">Un petit poème ✨</button>
+    </section>
+
+    <section id="v5" class="vip-section">
+        <div id="final-text" style="font-size:1.1rem; line-height:1.7; white-space:pre-line; max-width:90%;"></div>
+        <button id="btn-end" class="btn-premium" style="margin-top:30px; display:none;" onclick="location.reload()">Je t'aime ❤️</button>
+    </section>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<audio id="bg-music" loop><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c4d749e00.mp3"></audio>
+<audio id="voice-msg"><source src="mon-audio.mp3"></audio>
 
 <script>
-    // 1. COMPTEUR & CAPSULE
-    const startDate = new Date('2023-07-01');
-    const vDate = new Date('2026-02-14T00:00:00');
-
-    function update() {
-        const now = new Date();
-        const diff = Math.floor((now - startDate) / 86400000);
-        document.getElementById('counter').innerText = `✨ ${diff} jours à t'aimer ✨`;
-
-        const timeLeft = vDate - now;
-        if (timeLeft > 0) {
-            const d = Math.floor(timeLeft / 86400000);
-            const h = Math.floor((timeLeft % 86400000) / 3600000);
-            document.getElementById('capsule-timer').innerText = `Ouverture dans ${d}j ${h}h`;
+    // TIMER & DEBLOCAGE (Cible 10h le 14 Février)
+    const target = new Date('2026-02-14T10:00:00');
+    function updateTimer() {
+        const diff = target - new Date();
+        if(diff > 0) {
+            const h = Math.floor(diff/3600000);
+            const m = Math.floor((diff%3600000)/60000);
+            const s = Math.floor((diff%60000)/1000);
+            document.getElementById('timer').innerText = `Ouverture dans ${h}h ${m}m ${s}s`;
         } else {
-            document.getElementById('capsule').innerHTML = "🔓 <br> <b>MESSAGE DE LA ST VALENTIN :</b> <br> Ivette, tu es mon univers. Ce site est le témoin de mon amour éternel. ❤️";
-            document.getElementById('capsule').style.borderStyle = "solid";
+            document.getElementById('timer').style.display = "none";
+            document.getElementById('btn-vip').style.display = "inline-block";
         }
     }
-    setInterval(update, 1000); update();
+    setInterval(updateTimer, 1000); updateTimer();
 
-    // 2. PLUIE DE MOTS DOUX
-    const words = ["Ivette", "Ma Reine", "Unique", "Forte", "Mon Cœur", "Lumière", "Beauté", "Mienne"];
-    function createWords() {
-        const container = document.getElementById('words-container');
-        setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'floating-word';
-            el.innerText = words[Math.floor(Math.random() * words.length)];
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 5 + 7) + 's';
-            container.appendChild(el);
-            setTimeout(() => el.remove(), 10000);
-        }, 2000);
-    }
-    createWords();
-
-    // 3. TICKET À GRATTER
-    const canvas = document.getElementById('scratch-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0, 0, 280, 150);
-    ctx.fillStyle = '#9b59b6'; ctx.font = "20px Quicksand"; ctx.fillText("Gratte ici ❤️", 80, 80);
-
-    let isDrawing = false;
-    function scratch(e) {
-        if (!isDrawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
-    }
-    canvas.addEventListener('mousedown', () => isDrawing = true);
-    canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('mouseup', () => isDrawing = false);
-    canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
-    canvas.addEventListener('touchmove', (e) => { scratch(e); });
-
-    // 4. CHAT & MOODS
-    const db = {
-        fatigue: "Ferme les yeux, je suis là... 🌙❤️",
-        calin: "Je t'enlace si fort que tu peux sentir mon cœur... 🥺💜",
-        amour: "Je t'aime plus que les mots ne peuvent le dire. 💖",
-        content: "Ton sourire est ma plus belle vue ! 😁✨",
-        ennuie: "Dis-moi ce qui te ferait rire là maintenant ? 🤔"
-    };
-
-    function mood(type) {
-        addMsg(type === 'amour' ? "Besoin d'amour 💖" : "Je me sens " + type, 'user');
-        setTimeout(() => {
-            addMsg(db[type], 'bot');
-            if(type === 'amour') heartEffect();
-            if(type === 'content') confetti();
-        }, 600);
+    // BOUTON FUYARD
+    const taunts = ["Oups, raté ! 😜", "Même pas en rêve ! 🙅‍♂️", "Erreur 404 : Non indisponible", "Tu forces un peu là ? 😂", "Bouton en grève 🤷‍♂️"];
+    function moveNo() {
+        const btn = document.getElementById('btn-no');
+        btn.style.position = 'fixed';
+        btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+        btn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+        document.getElementById('taunt').innerText = taunts[Math.floor(Math.random()*taunts.length)];
     }
 
-    function addMsg(text, side) {
-        const box = document.getElementById('chat-box');
-        const d = document.createElement('div');
-        d.className = `msg ${side}`; d.innerText = text;
-        box.appendChild(d); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    // NAVIGATION VIP
+    function startVIP() {
+        document.getElementById('bg-music').play();
+        gsap.to('#main-site', {opacity:0, duration:1, onComplete: () => {
+            document.getElementById('main-site').style.display = 'none';
+            document.getElementById('vip-experience').style.display = 'block';
+            confetti({ particleCount: 150, spread: 70 });
+        }});
     }
 
-    function heartEffect() {
-        for(let i=0; i<15; i++) {
-            const h = document.createElement('div');
-            h.innerHTML = "❤️"; h.style.position = "fixed";
-            h.style.left = Math.random() * 100 + "vw"; h.style.top = "100vh";
-            h.style.fontSize = "25px"; h.style.transition = "all 4s";
-            document.body.appendChild(h);
-            setTimeout(() => { h.style.transform = `translateY(-120vh) scale(2)`; h.style.opacity = "0"; }, 100);
-            setTimeout(() => h.remove(), 4000);
-        }
+    function nextV(id) {
+        document.querySelector('.vip-active').classList.remove('vip-active');
+        document.getElementById(`v${id}`).classList.add('vip-active');
+        if(id === 2) loadQuiz();
+        if(id === 3) gsap.to(".photo-grid img", {opacity:1, y:0, stagger:0.2});
+        if(id === 5) typeFinal();
     }
 
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        if(!input.value) return;
-        addMsg(input.value, 'user');
-        if(input.value.toLowerCase().includes("t'aime")) setTimeout(heartEffect, 500);
-        input.value = "";
+    // QUIZ
+    const quiz = [
+        { q: "Qui est le plus têtu dans notre couple ?", o: ["Toi", "Moi", "Les deux 😅"], r: 2 },
+        { q: "Quand je vois ton appel, je fais quoi ?", o: ["Je laisse sonner", "Je souris avant de répondre", "Je rappelle plus tard"], r: 1 },
+        { q: "Quel est mon sport préféré en ce moment ?", o: ["Football", "Musculation", "Dormir 😄"], r: 1 }
+    ];
+    let qIdx = 0;
+    function loadQuiz() {
+        const d = quiz[qIdx];
+        document.getElementById('q-text').innerText = d.q;
+        const opts = document.getElementById('q-options'); opts.innerHTML = "";
+        d.o.forEach((opt, i) => {
+            const b = document.createElement('button');
+            b.style = "width:100%; padding:12px; margin:5px 0; background:transparent; border:1px solid #d63031; color:white; border-radius:10px; cursor:pointer;";
+            b.innerText = opt;
+            b.onclick = () => {
+                if(i === d.r) { confetti(); qIdx++; if(qIdx < quiz.length) loadQuiz(); else nextV(3); }
+                else { alert("Essaie encore mon amour ! 😉"); }
+            };
+            opts.appendChild(b);
+        });
     }
 
-    function toggleSecret() {
-        const z = document.getElementById('secret-zone');
-        z.style.display = z.style.display === 'none' ? 'block' : 'none';
+    // AUDIO VOCAL
+    function playVoice() {
+        const v = document.getElementById('voice-msg');
+        const bg = document.getElementById('bg-music');
+        bg.volume = 0.2; 
+        v.play().catch(e => alert("Assure-toi d'avoir ajouté le fichier mon-audio.mp3 !"));
+        v.onended = () => { bg.volume = 1.0; };
     }
+
+    // TEXTE FINAL
+    function typeFinal() {
+        const txt = "Avec toi, les choses simples deviennent belles ✨\nUn sourire, un appel, un moment… et ma journée change.\n\nCe que je veux pour nous :\nJe ne veux pas te faire de grandes promesses. Je veux simplement te montrer, chaque jour, par mes actes… que je tiens à toi, que je te respecte, et que je veux avancer avec toi.\n\nPas à pas, calmement, sincèrement… construire quelque chose de beau entre nous 🤍";
+        let i = 0; const el = document.getElementById('final-text');
+        function run() { if(i < txt.length) { el.innerHTML += txt.charAt(i); i++; setTimeout(run, 40); } else { document.getElementById('btn-end').style.display="inline-block"; } }
+        run();
+    }
+
+    // MOTS FLOTTANTS
+    setInterval(() => {
+        const el = document.createElement('div'); el.className = 'floating-word';
+        el.innerText = ["Ivette", "Ma Reine", "Mon Cœur", "Lumière"][Math.floor(Math.random()*4)];
+        el.style.left = Math.random()*90+'vw';
+        document.getElementById('words-container').appendChild(el);
+        setTimeout(()=>el.remove(), 10000);
+    }, 2500);
 </script>
 </body>
 </html>
